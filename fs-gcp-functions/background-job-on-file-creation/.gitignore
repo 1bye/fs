@@ -11,6 +11,7 @@ bun.lockb
 /coverage
 /dist
 dist
+
 # next.js
 /.next/
 /out/

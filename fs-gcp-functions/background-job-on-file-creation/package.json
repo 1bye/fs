@@ -1,0 +1,26 @@
+{
+  "name": "background-job-on-file-creation",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "esbuild ./src/index.js --minify --external:\"@google-cloud/functions-framework\" --external:\"@google-cloud/pubsub\" --external:\"@google-cloud/tasks\" --platform=node --bundle --outdir=dist && zip -r ./function.zip ./dist/*",
+    "dev": "npm run build && bunx @google-cloud/functions-framework --target=onFileUpload",
+    "test": "c8 mocha -p -j 2 test/*.test.js --timeout=6000 --exit",
+    "gcp-build": "npm run build"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.0",
+    "@google-cloud/pubsub": "^4.5.0",
+    "@google-cloud/tasks": "^5.5.0"
+  },
+  "devDependencies": {
+    "c8": "^8.0.0",
+    "gaxios": "^6.0.0",
+    "mocha": "^10.0.0",
+    "wait-port": "^1.0.4",
+    "esbuild": "^0.23.0"
+  }
+}
