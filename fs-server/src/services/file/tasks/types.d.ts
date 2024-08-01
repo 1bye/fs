@@ -6,7 +6,10 @@ export interface IFileAnalyzerTask {
 }
 
 export interface FileAnalyzerTaskConfig {
-    textContent: string;
+    file: {
+        content: string;
+        name: string;
+    };
     fsTree: FSTreeRoot;
 
     /**

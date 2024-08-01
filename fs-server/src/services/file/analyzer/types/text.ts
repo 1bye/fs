@@ -11,6 +11,7 @@ export class FileAnalyzerTextType implements IFileAnalyzerType {
     }
 
     async process() {
+        const file = this.config.file;
 
     }
 }

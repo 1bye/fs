@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@langchain/core": "^0.2.18",
-    "@langchain/google-vertexai": "^0.0.21",
+    "@langchain/google-genai": "^0.0.23",
     "elysia": "latest",
     "langchain": "^0.2.12",
     "zod": "^3.23.8"

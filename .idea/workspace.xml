@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/read-env.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +35,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/utils",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -55,12 +49,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/utils" />
       <recent name="$PROJECT_DIR$/fs-server" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/services/file" />
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src" />
     </key>
   </component>
@@ -84,6 +80,7 @@
       <workItem from="1722502474905" duration="1854000" />
       <workItem from="1722505645765" duration="3391000" />
       <workItem from="1722510298485" duration="5253000" />
+      <workItem from="1722538486947" duration="7547000" />
     </task>
     <servers />
   </component>

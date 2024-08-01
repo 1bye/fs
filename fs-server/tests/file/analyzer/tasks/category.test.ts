@@ -3,7 +3,9 @@ import { FileAnalyzerAutoCategoryTask } from "@services/file/analyzer/tasks/cate
 
 test("Auto category file", async () => {
     const autoCat = new FileAnalyzerAutoCategoryTask({
-        textContent: `#!/bin/bash
+        file: {
+            name: "flow-script.sh",
+            content: `#!/bin/bash
 # Function to validate UUID
 validate_uuid() {
     local uuid=$1
@@ -73,16 +75,13 @@ CODE=$(echo $GENERATE_CODE_RESPONSE | jq -r '.code')
 ACCESS_URL="https://flow.nouro.app/assigned/$UUID/validate?assign_type=code&code=$CODE"
 
 # Output the final URL
-echo "Access your flow at: $ACCESS_URL"`,
+echo "Access your flow at: $ACCESS_URL"`
+        },
         fsTree: {
-            scripts: {
-                type: "folder",
-                items: {}
-            },
             flow: {
                 type: "folder",
                 items: {
-                    scripts: {
+                    "flow": {
                         type: "folder",
                         items: {}
                     }
