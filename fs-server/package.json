@@ -6,7 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@langchain/core": "^0.2.18",
+    "@langchain/google-vertexai": "^0.0.21",
+    "elysia": "latest",
+    "langchain": "^0.2.12",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "bun-types": "latest"
