@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/terraform.tfstate" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/terraform.tfstate" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +16,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
         <option value="Dockerfile" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -39,22 +33,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-gcp-functions/background-job-on-file-creation/dist",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "/home/mrbye/.nvm/versions/node/v18.20.4/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "/home/mrbye/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/mrbye/Documents/GitHub/fs/fs-gcp-functions/background-job-on-file-creation/dist&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/home/mrbye/.nvm/versions/node/v18.20.4/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/mrbye/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/dist" />
@@ -64,6 +58,7 @@
       <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/server/models" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/ai" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file" />
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src" />
@@ -91,6 +86,7 @@
       <workItem from="1722510298485" duration="5253000" />
       <workItem from="1722538486947" duration="7547000" />
       <workItem from="1722589829711" duration="19479000" />
+      <workItem from="1722615499300" duration="3614000" />
     </task>
     <servers />
   </component>

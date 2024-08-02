@@ -64,6 +64,10 @@ export class FileInput implements IFileInput {
         return parse(filePath).ext;
     }
 
+    getType(): string {
+        return this.type.split(";")[0];
+    }
+
     /**
      * Returns the relative path from the current directory to the file.
      */

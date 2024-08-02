@@ -9,6 +9,8 @@ export interface IFileInput {
     getHTTPPath(): string;
     getFileName(withoutExtension: boolean): string;
     getDirectoryPath(): string;
+    getExtension(): string;
+    getType(): string;
     getRelativePath(): string;
 }
 

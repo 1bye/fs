@@ -16,7 +16,7 @@ export class FileAnalyzer implements IFileAnalyzer {
         const file = this.config.file;
 
         for (const type of this.registeredTypes) {
-            if (type.fileTypes.includes(file.type) || type.fileExtensions.includes(file.getExtension())) {
+            if (type.fileTypes.includes(file.getType()) || type.fileExtensions.includes(file.getExtension())) {
                 return await type.run();
             }
         }

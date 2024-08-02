@@ -12,6 +12,8 @@
     "@langchain/google-genai": "^0.0.23",
     "@langchain/google-vertexai": "^0.0.21",
     "elysia": "latest",
+    "firebase": "^10.12.5",
+    "firebase-admin": "^12.3.0",
     "langchain": "^0.2.12",
     "zod": "^3.23.8"
   },

@@ -21,16 +21,16 @@ export class AISuggestionExecutor implements IAISuggestionExecutor {
             const args = suggestion.args;
 
             const exec = this.config?.types?.[suggestion?.type];
-
+            console.log(exec)
             try {
                 if (exec) {
-                    const fn = (exec as any)?.[suggestion.task];
+                    const fn = (exec as any)?.[suggestion.task] as Function;
 
                     if (typeof fn === "function") {
                         if (Array.isArray(args)) {
-                            await fn(...args);
+                            await fn.bind(exec)(...args);
                         } else {
-                            await fn(args);
+                            await fn.bind(exec)(args);
                         }
                     } else {
                         throw new Error(`Suggestion task is not function, in ${suggestion?.type} as ${suggestion?.task}`);
