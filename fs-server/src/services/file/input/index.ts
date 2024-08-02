@@ -59,6 +59,11 @@ export class FileInput implements IFileInput {
         }
     }
 
+    getExtension() {
+        const filePath = this.config.pathToFile;
+        return parse(filePath).ext;
+    }
+
     /**
      * Returns the relative path from the current directory to the file.
      */

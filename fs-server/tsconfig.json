@@ -25,14 +25,14 @@
     // "moduleDetection": "auto",                        /* Control what method is used to detect module-format JS files. */
 
     "baseUrl": ".",
-
+    "resolveJsonModule": true,
     "paths": {
       "@config/*": ["./src/config/*"],
       "@app/*": ["./src/*"],
       "@services/*": ["./src/services/*"],
       "@etc/*": ["./src/etc/*"],
       "@apps/*": ["./src/apps/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@utils/*": ["./src/utils/*"]
     },
 
     /* Modules */

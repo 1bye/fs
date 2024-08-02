@@ -1,6 +1,5 @@
 import { FileInput } from "@services/file/input";
-
-export type AvailableAnalyzerTasks = "autoCategorize" | "autoTag" | "autoName";
+import { FileAnalyzerOutput } from "@services/file/analyzer/output";
 
 export interface IFileAnalyzer {
 
@@ -8,7 +7,6 @@ export interface IFileAnalyzer {
 
 export interface FileAnalyzerConfig {
     file: FileInput;
-    tasks: AvailableAnalyzerTasks[];
 }
 
 export interface FileAnalyzerTypeConfig extends FileAnalyzerConfig {
@@ -19,4 +17,6 @@ export interface IFileAnalyzerType {
     config: FileAnalyzerTypeConfig;
     fileExtensions: string[];
     fileTypes: string[];
+
+    run(): Promise<FileAnalyzerOutput>;
 }

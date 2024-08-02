@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,7 +17,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="tsconfig.json" />
         <option value="TypeScript File" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -35,7 +38,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/utils",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/credentials",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -49,13 +52,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/credentials" />
       <recent name="$PROJECT_DIR$/fs-server/src/utils" />
       <recent name="$PROJECT_DIR$/fs-server" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/services/ai" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file" />
       <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src" />
     </key>
@@ -81,6 +85,7 @@
       <workItem from="1722505645765" duration="3391000" />
       <workItem from="1722510298485" duration="5253000" />
       <workItem from="1722538486947" duration="7547000" />
+      <workItem from="1722589829711" duration="13312000" />
     </task>
     <servers />
   </component>

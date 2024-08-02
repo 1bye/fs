@@ -1,8 +1,8 @@
 import { test } from "bun:test";
-import { FileAnalyzerAutoCategoryTask } from "@services/file/analyzer/tasks/category";
+import { AIAutoCategoryTask } from "@services/ai/tasks/category";
 
 test("Auto category file", async () => {
-    const autoCat = new FileAnalyzerAutoCategoryTask({
+    const autoCat = new AIAutoCategoryTask({
         file: {
             name: "flow-script.sh",
             content: `#!/bin/bash
@@ -90,7 +90,9 @@ echo "Access your flow at: $ACCESS_URL"`
         }
     });
 
-    console.log(await autoCat.run())
+    const suggestions = await autoCat.run();
+
+    suggestions.map(_ => console.log(_.getSuggestion()))
 }, {
     timeout: 50000
 })
