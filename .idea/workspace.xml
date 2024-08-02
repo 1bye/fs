@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/terraform.tfstate" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/terraform.tfstate" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,10 +21,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="tsconfig.json" />
         <option value="TypeScript File" />
         <option value="Dockerfile" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -38,7 +43,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/credentials",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-gcp-functions/background-job-on-file-creation/dist",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -52,11 +57,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/dist" />
       <recent name="$PROJECT_DIR$/fs-server/credentials" />
       <recent name="$PROJECT_DIR$/fs-server/src/utils" />
       <recent name="$PROJECT_DIR$/fs-server" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
-      <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/fs-server/src/services/ai" />
@@ -85,7 +90,7 @@
       <workItem from="1722505645765" duration="3391000" />
       <workItem from="1722510298485" duration="5253000" />
       <workItem from="1722538486947" duration="7547000" />
-      <workItem from="1722589829711" duration="13312000" />
+      <workItem from="1722589829711" duration="19479000" />
     </task>
     <servers />
   </component>

@@ -6,11 +6,11 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build123": "ls && esbuild ./src/index.ts --minify --external:\"@google-cloud/functions-framework\" --external:\"@google-cloud/pubsub\" --external:\"@google-cloud/tasks\" --platform=node --bundle --outdir=dist",
+    "build": "ls && esbuild ./src/index.ts --minify --external:\"@google-cloud/functions-framework\" --external:\"@google-cloud/pubsub\" --external:\"@google-cloud/tasks\" --platform=node --bundle --outdir=dist",
     "zip": "cp ./src/index.ts ./bundle/src/ && cp ./package.json ./bundle/package.json && cd ./bundle && zip -r ../function.zip ./*",
     "dev": "npm run build && bunx @google-cloud/functions-framework --target=onFileUpload",
     "test": "c8 mocha -p -j 2 test/*.test.js --timeout=6000 --exit",
-    "gcp-build123123": "npm run build"
+    "gcp-build": "npm run build"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.1.0",

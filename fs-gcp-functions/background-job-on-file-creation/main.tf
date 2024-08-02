@@ -6,12 +6,12 @@ locals {
   GC_QUEUE_LOCATION = local.envs["GC_QUEUE_LOCATION"]
   SERVER_URL        = local.envs["SERVER_URL"]
   GC_PROJECT_ID     = local.envs["GC_PROJECT_ID"]
-  GC_TRIGGER_BUCKET     = local.envs["GC_PROJECT_ID"]
+  GC_TRIGGER_BUCKET     = local.envs["GC_TRIGGER_BUCKET"]
 }
 
 provider "google" {
   project = local.GC_PROJECT_ID
-  region  = "europe-west3"
+  region  = "europe-west4"
 }
 
 # resource "google_storage_bucket" "trigger_bucket" {
@@ -37,7 +37,7 @@ data "archive_file" "default" {
 
 resource "google_cloudfunctions2_function" "function" {
   name        = "background-job-on-file-creation"
-  location    = "europe-west3"
+  location    = "europe-west4"
   description = "Creates background job triggered on file creation"
 
   build_config {
@@ -70,7 +70,7 @@ resource "google_cloudfunctions2_function" "function" {
     event_type = "google.cloud.storage.object.v1.finalized"
     event_filters {
       attribute = "bucket"
-      value     = google_storage_bucket.trigger_bucket.name
+      value     = local.GC_TRIGGER_BUCKET
     }
 #     bucket   = google_storage_bucket.trigger_bucket.name
   }

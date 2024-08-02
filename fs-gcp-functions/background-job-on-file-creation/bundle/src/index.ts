@@ -56,10 +56,10 @@ async function createTask(fileData: FileData) {
                 httpRequest: {
                     httpMethod: "POST",
                     url: `${url}/v1/file/analyze`,
-                    body: Buffer.from(JSON.stringify(fileData)).toString("base64"),
                     headers: {
-                        "Content-Type": "application/json",
-                    }
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(fileData)
                 }
             },
             parent

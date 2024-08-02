@@ -27,5 +27,7 @@ COPY --from=prerelease /usr/src/app/src src
 COPY --from=prerelease /usr/src/app/package.json package.json
 COPY --from=prerelease /usr/src/app/tsconfig.json tsconfig.json
 
+RUN mkdir tmp
+
 EXPOSE 3000/tcp
 ENTRYPOINT ["bun", "run", "production"]
