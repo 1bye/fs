@@ -2,6 +2,7 @@ import { Storage } from "@google-cloud/storage"
 import { randomBytes } from "node:crypto"
 import serverConfig from "@config/server.config";
 import { FileInput } from "@services/file/input";
+import { $ } from "bun";
 import * as path from "node:path";
 
 export class GoogleStorage {
@@ -19,10 +20,13 @@ export class GoogleStorage {
     async downloadFile({ key }: {
         key: string;
     }) {
-        const pathToFile = `${serverConfig.tmpFolder}/${this.taskID}/${key}`;
+        const path = `${serverConfig.tmpFolder}/${this.taskID}`;
+        const pathToFile = `${path}/${key}`;
+
+        await $`mkdir -p ${path}`;
 
         await this.storage.bucket(this.bucket).file(key).download({
-            destination: pathToFile,
+            destination: pathToFile
         });
 
         return new FileInput({
