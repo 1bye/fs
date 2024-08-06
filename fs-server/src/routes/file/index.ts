@@ -7,11 +7,16 @@ import { AITaskExecutor } from "@services/ai/tasks/executor";
 import { AIAutoCategoryTask } from "@services/ai/tasks/category";
 import { AISuggestionExecutor } from "@services/ai/suggestion/executor";
 import userConfig from "@config/user.config";
+import { handleSecretSession } from "@app/server/session";
 
 export default new Elysia({ prefix: "/file" })
-    .post("/analyze", async ({ body }) => {
+    .derive({ as: "local" }, handleSecretSession)
+    .post("/analyze", async ({ body, user }) => {
         const tasks: AvailableTasks[] = ["autoCategory"];
-        const storage = new GoogleStorage(body.bucket);
+        const storage = new GoogleStorage({
+            bucket: body.bucket,
+            prefix: user.id
+        });
 
         console.log("Downloading file...")
         const file = await storage.downloadFile({
@@ -53,6 +58,13 @@ export default new Elysia({ prefix: "/file" })
 
         const out = await suggestionExecutor.run(taskExecutorOutput);
         console.log(out)
+
+        await storage.copyFileToAnotherBucket({
+            currentKey: body.name,
+            destinationKey: `${user.id}/`,
+            destinationBucket: userConfig.fileBucket,
+        })
+
         return out;
     }, {
         body: t.Object({

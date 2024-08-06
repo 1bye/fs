@@ -14,13 +14,21 @@ export class GoogleStorage {
     taskID: string;
     bucket: Bucket;
 
-    constructor(bucket: string) {
+    prefix: string | undefined;
+
+    constructor({ bucket, prefix }: {
+        bucket: string;
+        prefix?: string;
+    }) {
         this.storage = new Storage({
             projectId: googleConfig.projectId,
             credentials: GoogleCredentials
         });
+
         this.bucket = this.storage.bucket(bucket);
         this.taskID = randomBytes(8).toString("hex");
+
+        this.prefix = prefix || "";
     }
 
     async downloadFile({ key }: {
@@ -56,24 +64,26 @@ export class GoogleStorage {
 
         console.log("Moving file", { to, from, fileName })
 
-        await this.bucket.file(fileName).move(to, {
+        await this.bucket.file(fileName).move(path.join(this.prefix ?? "", to), {
             preconditionOpts: {
                 ifGenerationMatch: 0,
             },
         });
     }
 
-    async copyFileToAnotherBucket({ key, destinationBucket }: {
-        key: string;
+    async copyFileToAnotherBucket({ currentKey, destinationKey, destinationBucket }: {
+        currentKey: string;
+        destinationKey: string;
         destinationBucket: string;
     }) {
         console.log("Copying file to another bucket", {
             destinationBucket,
-            key
+            currentKey,
+            destinationKey
         })
 
         await this.bucket
-            .file(key)
-            .copy(this.storage.bucket(destinationBucket).file(key));
+            .file(currentKey)
+            .copy(this.storage.bucket(destinationBucket).file(destinationKey));
     }
 }

@@ -9,7 +9,9 @@ import { json } from "@app/server/response";
 export default new Elysia({ prefix: "/storage" })
     .derive(handleSession)
     .post("/upload", async ({ body, user }) => {
-        const storage = new GoogleStorage(userConfig.tmpFileBucket);
+        const storage = new GoogleStorage({
+            bucket: userConfig.tmpFileBucket
+        });
         const data = body as {
             filepond?: ["{}", Blob];
         }

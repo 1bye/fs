@@ -1,5 +1,7 @@
 const functions = require("@google-cloud/functions-framework");
 const { v2 } = require("@google-cloud/tasks");
+const { SignJWT } = require("jose");
+const TextEncoder = require("util").TextEncoder;
 
 const config = {
     projectId: process.env.GC_PROJECT_ID
@@ -19,22 +21,36 @@ functions.cloudEvent("onFileUpload", async (cloudEvent) => {
         contentType: file.contentType,
     };
 
+    const userId = fileData.name.split("/")[0];
+
     try {
-        await createTask(fileData);
+        await createTask({
+            fileData,
+            userId
+        });
     } catch (error) {
         console.error(`Error: ${(error)?.message}`);
     }
 });
 
-async function createTask(fileData) {
+async function createTask({ fileData, userId }) {
     const queue = process.env.GC_QUEUE_ID;
     const location = process.env.GC_QUEUE_LOCATION;
     const url = process.env.SERVER_URL;
+    const jwtSecret = process.env.SECRET;
 
     const parent = tasksClient.queuePath(config.projectId, location, queue);
 
     // const date = new Date();
     // date.setSeconds(date.getSeconds() + 10);
+
+    const authToken = SignJWT({
+        userId
+    }).setProtectedHeader({ alg: "HS256" })
+        .setIssuedAt()
+        .setIssuer("urn:example:issuer")
+        .setAudience("urn:example:audience")
+        .sign(new TextEncoder().encode(jwtSecret))
 
     try {
         const [response] = await tasksClient.createTask({
@@ -43,7 +59,8 @@ async function createTask(fileData) {
                     httpMethod: "POST",
                     url: `${url}/v1/file/analyze`,
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`
                     },
                     body: JSON.stringify(fileData)
                 }

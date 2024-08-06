@@ -3,4 +3,6 @@ export interface AuthConfig {
     refreshTokenCookieName: string;
 
     refreshTokenExpiresAfter: number;
+
+    jwtSecret: string;
 }
