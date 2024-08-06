@@ -1,4 +1,4 @@
-import { Storage } from "@google-cloud/storage"
+import { Storage, Bucket } from "@google-cloud/storage"
 import { randomBytes } from "node:crypto"
 import serverConfig from "@config/server.config";
 import { FileInput } from "@services/file/input";
@@ -7,18 +7,19 @@ import * as path from "node:path";
 import googleConfig from "@config/google.config";
 import GoogleCredentials from "../../../credentials/credentials.json"
 
+export { TransferManager } from "@google-cloud/storage"
+
 export class GoogleStorage {
     storage: Storage;
     taskID: string;
-    bucket: string;
+    bucket: Bucket;
 
     constructor(bucket: string) {
-        this.bucket = bucket;
-
         this.storage = new Storage({
             projectId: googleConfig.projectId,
             credentials: GoogleCredentials
         });
+        this.bucket = this.storage.bucket(bucket);
         this.taskID = randomBytes(8).toString("hex");
     }
 
@@ -32,7 +33,7 @@ export class GoogleStorage {
 
         // console.log(this.bucket, key, pathToFile)
 
-        await Bun.write(pathToFile, await this.storage.bucket(this.bucket).file(key).download({
+        await Bun.write(pathToFile, await this.bucket.file(key).download({
             // destination: pathToFile
         }));
 
@@ -44,7 +45,7 @@ export class GoogleStorage {
     async getMetadata({ key }: {
         key: string;
     }) {
-        return await this.storage.bucket(this.bucket).file(key).getMetadata();
+        return await this.bucket.file(key).getMetadata();
     }
 
     async moveFile({ to, from }: {
@@ -55,7 +56,7 @@ export class GoogleStorage {
 
         console.log("Moving file", { to, from, fileName })
 
-        await this.storage.bucket(this.bucket).file(fileName).move(to, {
+        await this.bucket.file(fileName).move(to, {
             preconditionOpts: {
                 ifGenerationMatch: 0,
             },
@@ -71,8 +72,7 @@ export class GoogleStorage {
             key
         })
 
-        await this.storage
-            .bucket(this.bucket)
+        await this.bucket
             .file(key)
             .copy(this.storage.bucket(destinationBucket).file(key));
     }

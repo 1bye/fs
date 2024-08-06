@@ -4,21 +4,28 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "production": "bun run --watch src/index.ts"
+    "production": "bun run --watch src/index.ts",
+    "db:generate:migrations": "bun drizzle-kit generate",
+    "db:gm": "bun run db:generate:migrations",
+    "db:migrate": "bun run ./src/apps/drizzle/migrate.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.1.0",
     "@google-cloud/storage": "^7.12.0",
     "@langchain/core": "^0.2.18",
     "@langchain/google-genai": "^0.0.23",
     "@langchain/google-vertexai": "^0.0.21",
+    "@supabase/supabase-js": "^2.45.1",
+    "drizzle-orm": "^0.32.2",
     "elysia": "latest",
     "firebase": "^10.12.5",
-    "firebase-admin": "^12.3.0",
     "langchain": "^0.2.12",
+    "postgres": "^3.4.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.23.2"
   },
   "module": "src/index.js"
 }
