@@ -66,7 +66,7 @@ async function createTask({ fileData, userId }) {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${authToken}`
                     },
-                    body: Buffer.from(JSON.stringify(fileData)).toString("base64")
+                    body: Buffer.from(JSON.stringify(fileData))
                 },
             },
             parent
