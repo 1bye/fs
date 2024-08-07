@@ -22,6 +22,8 @@ export default new Elysia({ prefix: "/auth" })
             }
         });
 
+        console.log(serverConfig, process.env)
+
         if (!data.url) {
             throw jsonError(new Error("Failed to authenticate with github"));
         }
