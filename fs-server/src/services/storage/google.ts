@@ -62,13 +62,14 @@ export class GoogleStorage {
     }) {
         const fileName = path.basename(from);
 
-        console.log("Moving file", { to, from, fileName })
+        console.log("Moving file", { to, from, fileName, to2: path.join(this.prefix ?? "", to) })
 
-        await this.bucket.file(fileName).move(path.join(this.prefix ?? "", to), {
-            preconditionOpts: {
-                ifGenerationMatch: 0,
-            },
-        });
+        await this.bucket.file(path.join(this.prefix ?? "", fileName))
+            .move(path.join(this.prefix ?? "", to, fileName), {
+                preconditionOpts: {
+                    ifGenerationMatch: 0,
+                },
+            });
     }
 
     async copyFileToAnotherBucket({ currentKey, destinationKey, destinationBucket }: {
@@ -85,5 +86,21 @@ export class GoogleStorage {
         await this.bucket
             .file(currentKey)
             .copy(this.storage.bucket(destinationBucket).file(destinationKey));
+    }
+
+    async moveFileToAnotherBucket({ currentKey, destinationKey, destinationBucket }: {
+        currentKey: string;
+        destinationKey: string;
+        destinationBucket: string;
+    }) {
+        console.log("Moving file to another bucket", {
+            destinationBucket,
+            currentKey,
+            destinationKey
+        })
+
+        await this.bucket
+            .file(currentKey)
+            .move(this.storage.bucket(destinationBucket).file(destinationKey));
     }
 }

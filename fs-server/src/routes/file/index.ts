@@ -18,6 +18,8 @@ export default new Elysia({ prefix: "/file" })
             prefix: user.id
         });
 
+        const pureKey = body.name.replace(`${user.id}/`, "");
+
         console.log("Downloading file...")
         const file = await storage.downloadFile({
             key: body.name
@@ -31,14 +33,24 @@ export default new Elysia({ prefix: "/file" })
             new FileAnalyzerTextType({ file })
         ])
 
-        console.log("Analyzing file...")
-        const analyzerOutput = await analyzer.analyze();
-        console.log(analyzerOutput)
+        console.log("Analyzing file... & Moving file from tmp bucket to user bucket...")
+        const [analyzerOutput] = await Promise.all([
+            analyzer.analyze(),
+            storage.moveFileToAnotherBucket({
+                currentKey: body.name,
+                destinationKey: `${user.id}/${pureKey}`,
+                destinationBucket: userConfig.fileBucket,
+            })
+        ]);
 
+        console.log(analyzerOutput)
         const taskExecutor = new AITaskExecutor({
             registeredTasks: [
                 new AIAutoCategoryTask({
-                    file: analyzerOutput.getFile(),
+                    file: {
+                        name: pureKey,
+                        content: analyzerOutput.getFile().content
+                    },
                     fsTree: {}
                 })
             ]
@@ -50,21 +62,16 @@ export default new Elysia({ prefix: "/file" })
 
         const suggestionExecutor = new AISuggestionExecutor({
             types: {
-                storage
+                storage: new GoogleStorage({
+                    bucket: userConfig.fileBucket,
+                    prefix: user.id
+                })
             }
         });
 
         console.log("Making suggestions...")
-
         const out = await suggestionExecutor.run(taskExecutorOutput);
         console.log(out)
-
-        console.log("Moving file from tmp bucket to user bucket...")
-        await storage.copyFileToAnotherBucket({
-            currentKey: body.name,
-            destinationKey: `${user.id}/`,
-            destinationBucket: userConfig.fileBucket,
-        })
 
         return out;
     }, {

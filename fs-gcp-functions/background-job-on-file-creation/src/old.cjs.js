@@ -1,7 +1,7 @@
 const functions = require("@google-cloud/functions-framework");
 const { v2 } = require("@google-cloud/tasks");
 const { SignJWT } = require("jose");
-const TextEncoder = require("util").TextEncoder;
+const { createSecretKey } = require('crypto');
 
 const config = {
     projectId: process.env.GC_PROJECT_ID
@@ -44,13 +44,17 @@ async function createTask({ fileData, userId }) {
     // const date = new Date();
     // date.setSeconds(date.getSeconds() + 10);
 
-    const authToken = SignJWT({
+    const secretKey = createSecretKey(jwtSecret, "utf-8");
+
+    const authToken = await new SignJWT({
         userId
     }).setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setIssuer("nouro:fs:gc")
         .setAudience("nouro:fs:server")
-        .sign(new TextEncoder().encode(jwtSecret))
+        .sign(secretKey)
+
+    console.log(authToken)
 
     try {
         const [response] = await tasksClient.createTask({
@@ -62,8 +66,8 @@ async function createTask({ fileData, userId }) {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${authToken}`
                     },
-                    body: JSON.stringify(fileData)
-                }
+                    body: Buffer.from(JSON.stringify(fileData)).toString("base64")
+                },
             },
             parent
         });

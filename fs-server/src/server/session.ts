@@ -67,7 +67,7 @@ export async function handleSession(ctx: AppContent) {
  * @param ctx
  */
 export async function handleSecretSession(ctx: AppContent) {
-    const authorizationHeader = ctx.headers["Authorization"];
+    const authorizationHeader = ctx.headers["authorization"];
 
     if (!authorizationHeader) {
         throw unauthorized(new Error("Failed to get token"));

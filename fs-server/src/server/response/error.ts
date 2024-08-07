@@ -1,18 +1,32 @@
-export function unauthorized(e?: Error | Record<string, Error>) {
-    const _e = Object.getPrototypeOf(e).name === "Error" ? {
-        default: e
-    } : e;
+export function handleErrors({ error, code }: {
+    code: string;
+    error: Error;
+}) {
+    switch (code) {
+        case "JsonError": {
+            const data = (error as JsonError).toJson();
+            return Response.json(data, {
+                status: data.status
+            })
+        }
+    }
+    return error;
+}
 
+export function unauthorized(e?: Error | string) {
     return new JsonError({
         status: 401,
-        errors: _e ?? "Unauthorized"
+        error: e ?? "Unauthorized"
     })
 }
 
-export class JsonError<T = {
+type BaseResponse = {
     status: number;
-    errors: Record<string, Error>;
-}> extends Error {
+    data?: unknown;
+    error: Error | string;
+};
+
+export class JsonError<T extends BaseResponse = BaseResponse> extends Error {
     msg: T;
 
     constructor(message: T) {
@@ -21,16 +35,21 @@ export class JsonError<T = {
     }
 
     toJson() {
-        return this.msg;
+        return {
+            status: this.msg.status,
+            errors: this.msg.error instanceof Error ? this.msg.error.message : this.msg.error,
+        };
     }
 }
 
 
-export function jsonError(e: Error | Record<string, Error>, status: number = 400) {
+export function jsonError(e: Error | string, status: number = 400) {
     return new JsonError({
         status,
-        errors: Object.getPrototypeOf(e).name === "Error" ? {
-            default: e
-        } : e
+        error: e
     })
 }
+
+export const ERRORS = {
+    JsonError: JsonError
+};
