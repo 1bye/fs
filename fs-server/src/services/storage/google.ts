@@ -5,7 +5,7 @@ import { FileInput } from "@services/file/input";
 import { $ } from "bun";
 import * as path from "node:path";
 import googleConfig from "@config/google.config";
-import GoogleCredentials from "@credentials/credentials.json"
+// import GoogleCredentials from "@credentials/credentials.json"
 
 export { TransferManager } from "@google-cloud/storage"
 
@@ -22,7 +22,7 @@ export class GoogleStorage {
     }) {
         this.storage = new Storage({
             projectId: googleConfig.projectId,
-            credentials: GoogleCredentials
+            // credentials: GoogleCredentials
         });
 
         this.bucket = this.storage.bucket(bucket);
