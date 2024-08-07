@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --env-file=.env --watch src/index.ts",
-    "production": "bun run --env-file=.env --watch src/index.ts",
+    "production": "bun run --watch src/index.ts",
     "db:generate:migrations": "bun drizzle-kit generate",
     "db:gm": "bun run db:generate:migrations",
     "db:migrate": "bun run ./src/apps/drizzle/migrate.ts"
