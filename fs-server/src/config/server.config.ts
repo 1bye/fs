@@ -7,5 +7,6 @@ export default {
 
     production: process.env.NODE_ENV === "production",
 
-    baseURL: env("SERVER_BASE_URL")
+    baseURL: env("SERVER_BASE_URL"),
+    baseDomain: env("SERVER_BASE_DOMAIN")
 } as ServerConfig;

@@ -3,4 +3,5 @@ export interface ServerConfig {
     production: boolean;
 
     baseURL: string;
+    baseDomain: string;
 }

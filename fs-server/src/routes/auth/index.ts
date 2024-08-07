@@ -51,13 +51,15 @@ export default new Elysia({ prefix: "/auth" })
             secure: serverConfig.production,
             value: data.session.access_token,
             maxAge: data.session?.expires_in ?? 3600,
+            domain: serverConfig.baseDomain
         });
 
         cookie[authConfig.refreshTokenCookieName].set({
             httpOnly: true,
             secure: serverConfig.production,
             value: data.session.refresh_token,
-            maxAge: authConfig.refreshTokenExpiresAfter
+            maxAge: authConfig.refreshTokenExpiresAfter,
+            domain: serverConfig.baseDomain
         });
 
         return Response.redirect(clientConfig.authRedirectURL)
