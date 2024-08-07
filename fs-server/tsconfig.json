@@ -27,6 +27,7 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
+      "@credentials/*": ["./credentials/*"],
       "@config/*": ["./src/config/*"],
       "@app/*": ["./src/*"],
       "@services/*": ["./src/services/*"],
