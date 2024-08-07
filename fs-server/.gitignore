@@ -18,6 +18,8 @@ dist
 /.next/
 /out/
 
+.env.local.production
+
 # production
 /build
 

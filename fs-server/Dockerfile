@@ -24,6 +24,7 @@ COPY . .
 FROM base AS release
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/src src
+COPY --from=prerelease /usr/src/app/.env.local.production .env
 COPY --from=prerelease /usr/src/app/package.json package.json
 COPY --from=prerelease /usr/src/app/tsconfig.json tsconfig.json
 
