@@ -39,7 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "production",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

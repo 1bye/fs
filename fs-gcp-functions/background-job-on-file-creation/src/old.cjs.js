@@ -64,7 +64,8 @@ async function createTask({ fileData, userId }) {
                     url: `${url}/v1/file/analyze`,
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${authToken}`
+                        "Authorization": `Bearer ${authToken}`,
+                        "Origin": "nouro.app"
                     },
                     body: Buffer.from(JSON.stringify(fileData))
                 },
