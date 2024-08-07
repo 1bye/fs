@@ -86,7 +86,9 @@ export async function handleSecretSession(ctx: AppContent) {
     const { payload } = await jose.jwtVerify<{
         userId: string;
     }>(token, new TextEncoder().encode(authConfig.jwtSecret), {
-        maxTokenAge: 30
+        maxTokenAge: 30,
+        issuer: ["nouro:fs:gc"],
+        audience: ["nouro:fs:server"]
     });
 
     const { data, error } = await supabase.auth.admin.getUserById(payload.userId);

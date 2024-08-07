@@ -59,6 +59,7 @@ export default new Elysia({ prefix: "/file" })
         const out = await suggestionExecutor.run(taskExecutorOutput);
         console.log(out)
 
+        console.log("Moving file from tmp bucket to user bucket...")
         await storage.copyFileToAnotherBucket({
             currentKey: body.name,
             destinationKey: `${user.id}/`,

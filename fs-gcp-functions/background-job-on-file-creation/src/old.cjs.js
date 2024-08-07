@@ -22,7 +22,7 @@ functions.cloudEvent("onFileUpload", async (cloudEvent) => {
     };
 
     const userId = fileData.name.split("/")[0];
-
+    console.log(userId, fileData.name.split("/"))
     try {
         await createTask({
             fileData,
@@ -48,8 +48,8 @@ async function createTask({ fileData, userId }) {
         userId
     }).setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setIssuer("urn:example:issuer")
-        .setAudience("urn:example:audience")
+        .setIssuer("nouro:fs:gc")
+        .setAudience("nouro:fs:server")
         .sign(new TextEncoder().encode(jwtSecret))
 
     try {

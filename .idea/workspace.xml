@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +95,7 @@
       <workItem from="1722713575076" duration="914000" />
       <workItem from="1722952934912" duration="56000" />
       <workItem from="1722953147321" duration="16742000" />
+      <workItem from="1723048598952" duration="763000" />
     </task>
     <servers />
   </component>
