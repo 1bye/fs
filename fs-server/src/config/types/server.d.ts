@@ -4,4 +4,6 @@ export interface ServerConfig {
 
     baseURL: string;
     baseDomain: string;
+
+    allowedOrigins: string[];
 }

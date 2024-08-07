@@ -8,5 +8,7 @@ export default {
     production: process.env.NODE_ENV === "production",
 
     baseURL: env("SERVER_BASE_URL"),
-    baseDomain: env("SERVER_BASE_DOMAIN")
+    baseDomain: env("SERVER_BASE_DOMAIN"),
+
+    allowedOrigins: env("SERVER_ALLOWED_ORIGINS").split(","),
 } as ServerConfig;

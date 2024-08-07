@@ -1,12 +1,13 @@
 import { cors } from "@elysiajs/cors"
 import { Elysia } from "elysia";
 import v1 from "@app/routes/v1";
+import serverConfig from "@config/server.config";
 
 const app = new Elysia()
     .use(
         cors({
             methods: "*",
-            origin: "localhost"
+            origin: serverConfig.allowedOrigins,
         })
     )
     .use(v1)
