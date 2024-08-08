@@ -12,18 +12,18 @@ import { handleSecretSession } from "@app/server/session";
 export default new Elysia({ prefix: "/file" })
     .derive({ as: "local" }, handleSecretSession)
 
-    .onParse(async ({ contentType, request }) => {
-        if (contentType === "application/json") {
-            const data = await request.json();
-            console.log(data)
-            return data;
-        }
-
-        console.log({ contentType, request });
-        const d = await request.text();
-        console.log(d)
-        return d;
-    })
+    // .onParse(async ({ contentType, request }) => {
+    //     if (contentType === "application/json") {
+    //         const data = await request.json();
+    //         console.log(data)
+    //         return data;
+    //     }
+    //
+    //     console.log({ contentType, request });
+    //     const d = await request.text();
+    //     console.log(d)
+    //     return d;
+    // })
     
     .post("/analyze", async ({ body, user }) => {
         const tasks: AvailableTasks[] = ["autoCategory"];
@@ -31,6 +31,8 @@ export default new Elysia({ prefix: "/file" })
             bucket: body.bucket,
             prefix: user.id
         });
+
+        console.log(body)
 
         const pureKey = body.name.replace(`${user.id}/`, "");
 
@@ -92,6 +94,7 @@ export default new Elysia({ prefix: "/file" })
         body: t.Object({
             bucket: t.String(),
             name: t.String(),
-            contentType: t.String(),
+            contentType: t.Optional(t.String()),
+            size: t.Optional(t.Number()),
         }),
     })

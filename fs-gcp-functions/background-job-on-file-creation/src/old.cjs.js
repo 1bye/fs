@@ -18,7 +18,8 @@ functions.cloudEvent("onFileUpload", async (cloudEvent) => {
     const fileData = {
         name: file.name,
         bucket: file.bucket,
-        contentType: file.contentType,
+        contentType: file?.contentType,
+        size: Number(file?.size ?? 0)
     };
 
     const userId = fileData.name.split("/")[0];
