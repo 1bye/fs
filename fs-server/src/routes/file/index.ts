@@ -8,6 +8,11 @@ import { AIAutoCategoryTask } from "@services/ai/tasks/category";
 import { AISuggestionExecutor } from "@services/ai/suggestion/executor";
 import userConfig from "@config/user.config";
 import { handleSecretSession } from "@app/server/session";
+import { IAISuggestion } from "@services/ai/suggestion/types";
+import path from "node:path";
+import { db } from "@apps/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import { createHash } from "node:crypto";
 
 export default new Elysia({ prefix: "/file" })
     .derive({ as: "local" }, handleSecretSession)
@@ -31,15 +36,23 @@ export default new Elysia({ prefix: "/file" })
             bucket: body.bucket,
             prefix: user.id
         });
-
-        console.log(body)
+        const userStorage = new GoogleStorage({
+            bucket: userConfig.fileBucket,
+            prefix: user.id
+        });
 
         const pureKey = body.name.replace(`${user.id}/`, "");
+        let currentKey = pureKey;
 
         console.log("Downloading file...")
-        const file = await storage.downloadFile({
-            key: body.name
-        })
+        const [file, tree] = await Promise.all([
+            storage.downloadFile({
+                key: body.name
+            }),
+            storage.getTree()
+        ])
+
+        console.log(tree)
 
         const analyzer = new FileAnalyzer({
             file
@@ -52,6 +65,7 @@ export default new Elysia({ prefix: "/file" })
         console.log("Analyzing file... & Moving file from tmp bucket to user bucket...")
         const [analyzerOutput] = await Promise.all([
             analyzer.analyze(),
+            // storage.moveFileToAnotherBucket({
             storage.moveFileToAnotherBucket({
                 currentKey: body.name,
                 destinationKey: `${user.id}/${pureKey}`,
@@ -67,7 +81,7 @@ export default new Elysia({ prefix: "/file" })
                         name: pureKey,
                         content: analyzerOutput.getFile().content
                     },
-                    fsTree: {}
+                    fsTree: tree
                 })
             ]
         });
@@ -78,10 +92,25 @@ export default new Elysia({ prefix: "/file" })
 
         const suggestionExecutor = new AISuggestionExecutor({
             types: {
-                storage: new GoogleStorage({
-                    bucket: userConfig.fileBucket,
-                    prefix: user.id
-                })
+                storage: userStorage
+            },
+            allowedTasks: {
+                "storage": ["moveFile"]
+            },
+            callbacks: {
+                async onSuccessfulSuggestionRun(suggestion: IAISuggestion): Promise<void> {
+                    const { type, task, args } = suggestion.getSuggestion();
+
+                    if (type === "storage" && task === "moveFile") {
+                        const _args = args as {
+                            from: string;
+                            to: string;
+                        }
+
+                        const fileName = path.basename(_args.from);
+                        currentKey = path.join(userStorage.prefix ?? "", _args.to, fileName);
+                    }
+                }
             }
         });
 
@@ -89,7 +118,31 @@ export default new Elysia({ prefix: "/file" })
         const out = await suggestionExecutor.run(taskExecutorOutput);
         console.log(out)
 
-        return out;
+        const hash = createHash("sha256");
+        hash.update(currentKey);
+        const hashedPayload = hash.digest("hex");
+
+        console.log(currentKey, tree)
+
+        await addDoc(collection(db, "file_data"), {
+            content_type: body.contentType ?? null,
+            created_at: new Date().toISOString(),
+            name: path.basename(currentKey),
+            path: path.dirname(currentKey),
+            size: body.size ?? 0,
+            updated_at: new Date().toISOString(),
+            user_id: user.id,
+            ai: {
+                suggestions: {
+                    tasks,
+                    lastSuggestedAt: new Date().toISOString()
+                }
+            }
+        });
+
+        return Response.json(out, {
+            status: out.success ? 200 : 400
+        });
     }, {
         body: t.Object({
             bucket: t.String(),

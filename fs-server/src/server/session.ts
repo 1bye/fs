@@ -86,7 +86,7 @@ export async function handleSecretSession(ctx: AppContent) {
     const { payload } = await jose.jwtVerify<{
         userId: string;
     }>(token, new TextEncoder().encode(authConfig.jwtSecret), {
-        maxTokenAge: 30,
+        maxTokenAge: serverConfig.production ? 30 : undefined,
         issuer: ["nouro:fs:gc"],
         audience: ["nouro:fs:server"]
     });

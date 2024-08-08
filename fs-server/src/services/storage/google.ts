@@ -1,10 +1,11 @@
-import { Storage, Bucket } from "@google-cloud/storage"
+import { Storage, Bucket, File } from "@google-cloud/storage"
 import { randomBytes } from "node:crypto"
 import serverConfig from "@config/server.config";
 import { FileInput } from "@services/file/input";
 import { $ } from "bun";
 import * as path from "node:path";
 import googleConfig from "@config/google.config";
+import { FSTreeFolder, FSTreeRoot, TreeConfig } from "@utils/tree";
 // import GoogleCredentials from "@credentials/credentials.json"
 
 export { TransferManager } from "@google-cloud/storage"
@@ -66,16 +67,17 @@ export class GoogleStorage {
 
         await this.bucket.file(path.join(this.prefix ?? "", fileName))
             .move(path.join(this.prefix ?? "", to, fileName), {
-                preconditionOpts: {
-                    ifGenerationMatch: 0,
-                },
+                // preconditionOpts: {
+                //     ifGenerationMatch: 0,
+                // },
             });
     }
 
-    async copyFileToAnotherBucket({ currentKey, destinationKey, destinationBucket }: {
+    async copyFileToAnotherBucket({ currentKey, destinationKey, destinationBucket, metadata }: {
         currentKey: string;
         destinationKey: string;
         destinationBucket: string;
+        metadata?: Record<string, string | number | boolean | null> | undefined
     }) {
         console.log("Copying file to another bucket", {
             destinationBucket,
@@ -85,7 +87,9 @@ export class GoogleStorage {
 
         await this.bucket
             .file(currentKey)
-            .copy(this.storage.bucket(destinationBucket).file(destinationKey));
+            .copy(this.storage.bucket(destinationBucket).file(destinationKey), {
+                metadata
+            });
     }
 
     async moveFileToAnotherBucket({ currentKey, destinationKey, destinationBucket }: {
@@ -102,5 +106,55 @@ export class GoogleStorage {
         await this.bucket
             .file(currentKey)
             .move(this.storage.bucket(destinationBucket).file(destinationKey));
+    }
+
+    async getTree(
+        delimiter: string = "",
+    ): Promise<FSTreeRoot> {
+        const options = {
+            prefix: this.prefix,
+            delimiter: delimiter,
+        };
+
+        // Get files and directories under the prefix
+        const [files] = await this.bucket.getFiles(options);
+
+        let tree: FSTreeRoot = {};
+        console.log(files.map(_ => _.name))
+
+        function rec(paths: string[], tree: FSTreeRoot): FSTreeRoot {
+            const currentPath = paths[0];
+            const remainingPaths = paths.slice(1);
+
+            if (!currentPath) return tree;
+
+            if (remainingPaths.length === 0) {
+                tree[currentPath] = {
+                    type: "file",
+                    data: {}
+                };
+            } else {
+                tree[currentPath] = tree[currentPath] || {
+                    type: "folder",
+                    items: {}
+                };
+
+                // Recurse into the next level of the tree
+                (tree[currentPath] as FSTreeFolder).items = rec(remainingPaths, (tree[currentPath] as FSTreeFolder).items);
+            }
+
+            return tree;
+        }
+
+        for (const file of files) {
+            const baseName = this.prefix ? file.name.replace(`${this.prefix}/`, "") : file.name;
+
+            const paths = baseName.split("/");
+
+            // Build the tree structure iteratively
+            tree = rec(paths, tree);
+        }
+
+        return tree;
     }
 }

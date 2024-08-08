@@ -1,13 +1,13 @@
-import { AISuggestionConfig, IAISuggestion, Suggestion } from "@services/ai/suggestion/types";
+import { AISuggestionConfig, IAISuggestion, Suggestion, SuggestionArgs } from "@services/ai/suggestion/types";
 
-export class AISuggestion implements IAISuggestion {
+export class AISuggestion<Args extends SuggestionArgs = SuggestionArgs> implements IAISuggestion {
     config: AISuggestionConfig;
 
-    constructor(config: AISuggestionConfig) {
+    constructor(config: AISuggestionConfig<Args>) {
         this.config = config;
     }
 
-    getSuggestion(): Suggestion {
-        return this.config.suggestion;
+    getSuggestion<Args extends SuggestionArgs = SuggestionArgs>(): Suggestion<Args> {
+        return this.config.suggestion as Suggestion<Args>;
     }
 }

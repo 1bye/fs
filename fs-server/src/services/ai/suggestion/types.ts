@@ -1,17 +1,19 @@
 export interface IAISuggestion {
     config: AISuggestionConfig;
 
-    getSuggestion(): Suggestion;
+    getSuggestion<Args extends SuggestionArgs = SuggestionArgs>(): Suggestion<Args>;
 }
 
-export type Suggestion = {
+export type SuggestionArgs = Record<string, any> | any[];
+
+export type Suggestion<Args extends SuggestionArgs = SuggestionArgs> = {
     type: string;
     task: string;
-    args: Record<string, any> | any[];
+    args: Args;
 }
 
-export interface AISuggestionConfig {
-    suggestion: Suggestion;
+export interface AISuggestionConfig<Args extends SuggestionArgs = SuggestionArgs> {
+    suggestion: Suggestion<Args>;
 }
 
 export interface IAISuggestionExecutor {
@@ -22,6 +24,25 @@ export interface IAISuggestionExecutor {
 
 export interface AISuggestionExecutorConfig {
     types: Record<string, unknown>;
+
+    /**
+     * Blocks not allowed types, by default undefined, which means nothing to block
+     * Usage:
+     * ```
+     * {
+     *   "typeName": ["allowedTask", "allowedTask2"]
+     * }
+     * ```
+     */
+    allowedTasks?: Record<string, string[]>
+
+    callbacks?: {
+        /**
+         * Runs when suggestion task not given any exception
+         * @param suggestion
+         */
+        onSuccessfulSuggestionRun(suggestion: IAISuggestion): void | Promise<void>
+    }
 }
 
 export type AISuggestionExecutorRunOutput = {

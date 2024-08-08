@@ -29,8 +29,12 @@ export class AISuggestionExecutor implements IAISuggestionExecutor {
                     if (typeof fn === "function") {
                         if (Array.isArray(args)) {
                             await fn.bind(exec)(...args);
+
+                            await this.config?.callbacks?.onSuccessfulSuggestionRun?.(_suggestion);
                         } else {
                             await fn.bind(exec)(args);
+
+                            await this.config?.callbacks?.onSuccessfulSuggestionRun?.(_suggestion);
                         }
                     } else {
                         throw new Error(`Suggestion task is not function, in ${suggestion?.type} as ${suggestion?.task}`);

@@ -26,7 +26,7 @@ export default new Elysia({ prefix: "/storage" })
             await Bun.write(filePath, file);
 
             const res = await tr.uploadFileInChunks(filePath, {
-                uploadName: `${user.id}/${file.name}`
+                uploadName: `${user.id}/${file.name}`,
             })
 
             console.log(res);
@@ -40,4 +40,12 @@ export default new Elysia({ prefix: "/storage" })
         return json("Successfully uploaded file");
     }, {
         type: "formdata"
+    })
+
+    .get("/", async ({ user }) => {
+        const storage = new GoogleStorage({
+            bucket: userConfig.fileBucket,
+            prefix: user.id
+        })
+        return json(await storage.getTree());
     })
