@@ -1,19 +1,22 @@
-import { basename, dirname, parse, relative } from "node:path";
-import { FileInputConfig, IFileInput } from "./types";
+import path, { basename, dirname, parse, relative } from "node:path";
+import { FileInputConfig, IFileInput, IFileInputDeleteParams } from "./types";
 import { isValidURL } from "@utils/url";
+import { rm } from "node:fs/promises"
 
 export class FileInput implements IFileInput {
     config: FileInputConfig;
 
-    readonly size: number;
-    readonly type: string;
-    readonly name: string | undefined;
+    size: number;
+    type: string;
+    name: string | undefined;
+    content: string | undefined;
 
     constructor(config: FileInputConfig) {
         this.config = config;
 
         const file = Bun.file(config.pathToFile);
 
+        this.content = this.config.content;
         this.size = file.size;
         this.type = file.type;
         this.name = file.name;
@@ -74,5 +77,27 @@ export class FileInput implements IFileInput {
     getRelativePath(): string {
         const filePath = this.config.pathToFile;
         return relative(process.cwd(), filePath);
+    }
+
+    /**
+     * Returns file content as text
+     */
+    async getContent(): Promise<string> {
+        return this.content ?? await Bun.file(this.getPath()).text();
+    }
+
+    async delete({ removeWithDir }: IFileInputDeleteParams) {
+        const file = Bun.file(this.config.pathToFile);
+
+        if (await file.exists()) {
+            await rm(
+                removeWithDir
+                    ? path.dirname(this.config.pathToFile)
+                    : this.config.pathToFile,
+                {
+                    force: true,
+                    recursive: true
+                })
+        }
     }
 }

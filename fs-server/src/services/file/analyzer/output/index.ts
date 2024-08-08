@@ -1,4 +1,5 @@
-import { FileAnalyzerFile, FileAnalyzerOutputConfig, IFileAnalyzerOutput } from "@services/file/analyzer/output/types";
+import { FileAnalyzerOutputConfig, IFileAnalyzerOutput } from "@services/file/analyzer/output/types";
+import { FileInput } from "@services/file/input";
 
 export class FileAnalyzerOutput implements IFileAnalyzerOutput {
     config: FileAnalyzerOutputConfig;
@@ -7,7 +8,7 @@ export class FileAnalyzerOutput implements IFileAnalyzerOutput {
         this.config = config;
     }
 
-    getFile(): FileAnalyzerFile {
+    getFile(): FileInput {
         return this.config.file;
     }
 }

@@ -16,12 +16,18 @@ export class AISuggestionExecutor implements IAISuggestionExecutor {
         const errors: AISuggestionExecutorRunOutput["errors"] = {};
         let success: boolean = true;
 
-        await Promise.all(suggestions.map(async _suggestion => {
+        for (const _suggestion of suggestions) {
             const suggestion = _suggestion.getSuggestion();
             const args = suggestion.args;
 
+            if (this.config.allowedTasks && this.config.allowedTasks[suggestion?.type]) {
+                const allowed = this.config.allowedTasks[suggestion?.type];
+                if (!(allowed.includes(suggestion.task)))
+                    throw new Error(`Following suggestion task is not allowed in type ${suggestion?.type}: ${suggestion?.task}`)
+            }
+
             const exec = this.config?.types?.[suggestion?.type];
-            console.log(exec)
+
             try {
                 if (exec) {
                     const fn = (exec as any)?.[suggestion.task] as Function;
@@ -46,7 +52,9 @@ export class AISuggestionExecutor implements IAISuggestionExecutor {
                 errors[suggestion?.type] = e as Error;
                 success = false;
             }
-        }));
+
+            await new Promise(resolve => setTimeout(resolve, this.config.delay ?? 10))
+        }
 
         return {
             errors,

@@ -2,13 +2,13 @@ export type FSTreeRoot = Record<string, FSTreeFile | FSTreeFolder>
 
 export type FSTreeFile = {
     type: "file";
-    data: unknown;
+    data?: unknown;
 }
 
 export type FSTreeFolder = {
     type: "folder";
     items: FSTreeRoot;
-    data: unknown;
+    data?: unknown;
 }
 
 export interface TreeConfig {

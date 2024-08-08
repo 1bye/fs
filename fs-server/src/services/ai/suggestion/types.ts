@@ -25,6 +25,7 @@ export interface IAISuggestionExecutor {
 export interface AISuggestionExecutorConfig {
     types: Record<string, unknown>;
 
+    delay?: number;
     /**
      * Blocks not allowed types, by default undefined, which means nothing to block
      * Usage:

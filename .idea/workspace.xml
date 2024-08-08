@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fs-amqp/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-amqp/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-amqp/d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-amqp/entrypoint.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +19,8 @@
         <option value="Dockerfile" />
         <option value="+page" />
         <option value="+layout" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -43,7 +39,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-amqp",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/tests/file/analyzer/tasks",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -57,11 +53,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/tests/file/analyzer/tasks" />
+      <recent name="$PROJECT_DIR$/fs-server/src/services/ai/tasks" />
       <recent name="$PROJECT_DIR$/fs-amqp" />
       <recent name="$PROJECT_DIR$/fs-server" />
       <recent name="$PROJECT_DIR$/fs-app" />
-      <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/dist" />
-      <recent name="$PROJECT_DIR$/fs-server/credentials" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/fs-app/src/routes/(auth)/user" />

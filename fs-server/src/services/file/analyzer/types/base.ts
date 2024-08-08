@@ -1,5 +1,6 @@
 import { FileAnalyzerTypeConfig, IFileAnalyzerType } from "@services/file/analyzer/types";
 import { FileAnalyzerOutput } from "@services/file/analyzer/output";
+import { FileInput } from "@services/file/input";
 
 export class FileBaseType implements IFileAnalyzerType {
     config: FileAnalyzerTypeConfig;
@@ -12,10 +13,10 @@ export class FileBaseType implements IFileAnalyzerType {
 
     async run(): Promise<FileAnalyzerOutput> {
         return new FileAnalyzerOutput({
-            file: {
-                content: "Blank file",
-                name: "blank_file.name"
-            }
+            file: new FileInput({
+                pathToFile: "blank_file.name",
+                content: "Blank file"
+            })
         })
     }
 }

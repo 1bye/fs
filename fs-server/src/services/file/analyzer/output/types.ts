@@ -1,14 +1,11 @@
+import { FileInput } from "@services/file/input";
+
 export interface IFileAnalyzerOutput {
     config: FileAnalyzerOutputConfig;
-    getFile(): FileAnalyzerFile;
-}
-
-export interface FileAnalyzerFile {
-    name: string;
-    content: string;
+    getFile(): FileInput;
 }
 
 export interface FileAnalyzerOutputConfig {
-    file: FileAnalyzerFile
+    file: FileInput;
 }
 

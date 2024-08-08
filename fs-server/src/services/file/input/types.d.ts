@@ -1,7 +1,8 @@
 export interface IFileInput {
-    readonly size: number;
-    readonly type: string;
-    readonly name: string | undefined;
+    size: number;
+    type: string;
+    name: string | undefined;
+    content: string | undefined;
 
     config: FileInputConfig;
 
@@ -12,8 +13,16 @@ export interface IFileInput {
     getExtension(): string;
     getType(): string;
     getRelativePath(): string;
+    getContent(): Promise<string>;
+
+    delete(params: IFileInputDeleteParams): Promise<void>;
+}
+
+export interface IFileInputDeleteParams {
+    removeWithDir: boolean;
 }
 
 export interface FileInputConfig {
     pathToFile: string;
+    content?: string;
 }

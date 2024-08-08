@@ -1,10 +1,12 @@
 import { test } from "bun:test";
-import { AIAutoCategoryTask } from "@services/ai/tasks/category";
+import { AIAutoMoveTask } from "@services/ai/tasks/auto-move";
+import { MutateMap } from "@services/etc/mutate";
+import { AITaskFileConfig } from "@services/ai/tasks/types";
+import { FileInput } from "@services/file/input";
 
-test("Auto category file", async () => {
-    const autoCat = new AIAutoCategoryTask({
-        file: {
-            name: "flow-script.sh",
+test("Auto move file", async () => {
+    const mutate = new MutateMap({
+        file: new FileInput({
             content: `#!/bin/bash
 # Function to validate UUID
 validate_uuid() {
@@ -75,8 +77,9 @@ CODE=$(echo $GENERATE_CODE_RESPONSE | jq -r '.code')
 ACCESS_URL="https://flow.nouro.app/assigned/$UUID/validate?assign_type=code&code=$CODE"
 
 # Output the final URL
-echo "Access your flow at: $ACCESS_URL"`
-        },
+echo "Access your flow at: $ACCESS_URL"`,
+            pathToFile: "flow-script.sh"
+        }),
         fsTree: {
             flow: {
                 type: "folder",
@@ -88,6 +91,10 @@ echo "Access your flow at: $ACCESS_URL"`
                 }
             }
         }
+    } as AITaskFileConfig)
+
+    const autoCat = new AIAutoMoveTask({
+        mutate
     });
 
     const suggestions = await autoCat.run();
