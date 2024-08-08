@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/emu-task.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/local.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src/old.cjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" beforeDir="false" afterPath="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,10 +20,10 @@
       <list>
         <option value="tsconfig.json" />
         <option value="Dockerfile" />
-        <option value="JavaScript File" />
         <option value="+page" />
         <option value="+layout" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -39,7 +41,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "production",
     "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -96,6 +98,7 @@
       <workItem from="1722953147321" duration="16742000" />
       <workItem from="1723048598952" duration="763000" />
       <workItem from="1723061146327" duration="1235000" />
+      <workItem from="1723117112934" duration="1962000" />
     </task>
     <servers />
   </component>

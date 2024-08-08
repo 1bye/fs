@@ -11,7 +11,12 @@ import { handleSecretSession } from "@app/server/session";
 
 export default new Elysia({ prefix: "/file" })
     .derive({ as: "local" }, handleSecretSession)
-
+    .onBeforeHandle(({ request }) => {
+        console.log(request)
+    })
+    // .onParse(async ({ contentType, request }) => {
+    //     return ""
+    // })
     .post("/analyze", async ({ body, user }) => {
         const tasks: AvailableTasks[] = ["autoCategory"];
         const storage = new GoogleStorage({
@@ -81,5 +86,4 @@ export default new Elysia({ prefix: "/file" })
             name: t.String(),
             contentType: t.String(),
         }),
-        type: "arrayBuffer"
     })

@@ -2,6 +2,7 @@ export function handleErrors({ error, code }: {
     code: string;
     error: Error;
 }) {
+    console.log(code)
     switch (code) {
         case "JsonError": {
             const data = (error as JsonError).toJson();
