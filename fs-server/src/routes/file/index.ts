@@ -11,12 +11,20 @@ import { handleSecretSession } from "@app/server/session";
 
 export default new Elysia({ prefix: "/file" })
     .derive({ as: "local" }, handleSecretSession)
-    .onBeforeHandle(({ request }) => {
-        console.log(request)
+
+    .onParse(async ({ contentType, request }) => {
+        if (contentType === "application/json") {
+            const data = await request.json();
+            console.log(data)
+            return data;
+        }
+
+        console.log({ contentType, request });
+        const d = await request.text();
+        console.log(d)
+        return d;
     })
-    // .onParse(async ({ contentType, request }) => {
-    //     return ""
-    // })
+    
     .post("/analyze", async ({ body, user }) => {
         const tasks: AvailableTasks[] = ["autoCategory"];
         const storage = new GoogleStorage({
