@@ -12,7 +12,7 @@ import { IAISuggestion } from "@services/ai/suggestion/types";
 import path from "node:path";
 import { db, firestore } from "@apps/firebase";
 import { set, ref, onValue, remove, update } from "firebase/database";
-import { addDoc, updateDoc, collection, getDoc, query, where, getDocs } from "firebase/firestore";
+import { addDoc, updateDoc, collection, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { randomBytes } from "node:crypto";
 import { jsonError } from "@app/server/response/error";
 import { MutateMap } from "@services/etc/mutate";
@@ -79,20 +79,21 @@ export default new Elysia({ prefix: "/file" })
             throw new Error("Invalid user!");
         }
 
-        const { tasks } = await getDocs(
+        const fileUpcomingTaskRef = await getDocs(
             query(
                 collection(firestore, "file_upcoming_tasks"),
                 where("user_id", "==", user.id),
                 where("id", "==", uniqueID),
             )
-        ).then(_ => _.docs[0].data()) as {
+        ).then(_ => _.docs[0])
+
+        const { tasks } = fileUpcomingTaskRef.data() as {
             id: string;
             user_id: string;
             tasks: AvailableTasks[];
         }
 
         try {
-            // const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
             const googleStorage = new GoogleStorage({
                 bucket: body.bucket,
                 prefix: user.id
@@ -137,6 +138,7 @@ export default new Elysia({ prefix: "/file" })
             ])
 
             file.setSize(body.size ?? 0);
+            body.contentType && file.setType(body.contentType);
 
             await set(ref(db, fileProcessingPath), {
                 file: currentKey,
@@ -280,6 +282,7 @@ export default new Elysia({ prefix: "/file" })
 
             await Promise.all([
                 remove(ref(db, fileProcessingPath)),
+                deleteDoc(fileUpcomingTaskRef.ref),
                 file.delete({
                     removeWithDir: true
                 })

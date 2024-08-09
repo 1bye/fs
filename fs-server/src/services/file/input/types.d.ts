@@ -16,6 +16,7 @@ export interface IFileInput {
     getContent(): Promise<string>;
 
     setSize(size: number): void;
+    setType(type: string): void;
 
     delete(params: IFileInputDeleteParams): Promise<void>;
 }

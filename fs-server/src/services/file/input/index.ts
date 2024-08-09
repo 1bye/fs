@@ -90,6 +90,10 @@ export class FileInput implements IFileInput {
         this.size = size;
     }
 
+    setType(type: string) {
+        this.type = type;
+    }
+
     async delete({ removeWithDir }: IFileInputDeleteParams) {
         const file = Bun.file(this.config.pathToFile);
 
