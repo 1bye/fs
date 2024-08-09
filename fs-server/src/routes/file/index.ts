@@ -229,7 +229,7 @@ export default new Elysia({ prefix: "/file" })
                                 mutate: fileMut
                             }),
                             // @ts-ignore
-                            new AIAutoTagTask({s
+                            new AIAutoTagTask({
                                 mutate: fileMut.extend({
                                     tags: userFileTags.map(_ => _.name),
                                     maxToAssignTags: 1,
