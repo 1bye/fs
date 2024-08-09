@@ -69,6 +69,8 @@ export class GoogleStorage {
         // Create a writable stream to save the chunk
         const writeStream = fs.createWriteStream(pathToFile);
 
+        console.log({ pathToFile })
+
         chunkStream.pipe(writeStream);
 
         // Wait for the download to complete

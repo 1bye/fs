@@ -69,10 +69,15 @@ export default new Elysia({ prefix: "/file" })
             throw jsonError("File size can't be 0");
         }
 
-        const [,uniqueID] = body.name.split("/") as [
+        const [userId, uniqueID, fileName] = body.name.split("/") as [
             string,
             string,
+            string
         ];
+
+        if (userId !== user.id) {
+            throw new Error("Invalid user!");
+        }
 
         const { tasks } = await getDocs(
             query(
@@ -85,8 +90,6 @@ export default new Elysia({ prefix: "/file" })
             user_id: string;
             tasks: AvailableTasks[];
         }
-
-        console.log(tasks)
 
         try {
             // const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
@@ -102,7 +105,7 @@ export default new Elysia({ prefix: "/file" })
                 userId: user.id
             })
 
-            const pureKey = body.name.replace(`${user.id}/`, "");
+            const pureKey = fileName.replace(`${user.id}/`, "");
             let currentKey = pureKey;
 
             const uniqueID = randomBytes(12).toString("hex");
@@ -132,6 +135,8 @@ export default new Elysia({ prefix: "/file" })
                 } as FSFile),
                 storage.getAllTags()
             ])
+
+            file.setSize(body.size ?? 0);
 
             await set(ref(db, fileProcessingPath), {
                 file: currentKey,
