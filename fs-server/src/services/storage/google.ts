@@ -69,8 +69,6 @@ export class GoogleStorage {
         // Create a writable stream to save the chunk
         const writeStream = fs.createWriteStream(pathToFile);
 
-        console.log({ pathToFile })
-
         chunkStream.pipe(writeStream);
 
         // Wait for the download to complete
@@ -152,10 +150,11 @@ export class GoogleStorage {
     }
 
     async getTree(
+        prefix: string = "",
         delimiter: string = "",
     ): Promise<FSTreeRoot> {
         const options = {
-            prefix: this.prefix,
+            prefix: prefix ?? this.prefix,
             delimiter: delimiter,
         };
 

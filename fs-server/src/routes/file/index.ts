@@ -108,10 +108,8 @@ export default new Elysia({ prefix: "/file" })
                 userId: user.id
             })
 
-            const pureKey = fileName.replace(`${user.id}/`, "");
+            const pureKey = fileName;
             let currentKey = pureKey;
-
-            console.log({ pureKey })
 
             const uniqueID = randomBytes(12).toString("hex");
             const fileProcessingPath = `file_processing/${user.id}/${uniqueID}`;
@@ -122,7 +120,7 @@ export default new Elysia({ prefix: "/file" })
                     key: body.name,
                     chunkSize: 15 * 1024 * 1024 /* Max 15MB */
                 }),
-                googleStorage.getTree(),
+                googleStorage.getTree(`${user.id}/${uniqueID}`),
                 addDoc(collection(firestore, "files"), {
                     content_type: body.contentType ?? null,
                     created_at: new Date().toISOString(),
@@ -143,8 +141,6 @@ export default new Elysia({ prefix: "/file" })
 
             file.setSize(body.size ?? 0);
             body.contentType && file.setType(body.contentType);
-
-            console.log(file.getPath())
 
             await set(ref(db, fileProcessingPath), {
                 file: currentKey,
@@ -219,7 +215,6 @@ export default new Elysia({ prefix: "/file" })
                     });
                     const ct = suggestionExecutor.continuous();
 
-                    console.log(analyzerOutput)
                     const taskExecutor = new AITaskExecutor({
                         registeredTasks: [
                             new AIAutoMoveTask({
@@ -253,7 +248,6 @@ export default new Elysia({ prefix: "/file" })
                     console.log("Making suggestions...")
                     // const out = await suggestionExecutor.run(taskExecutorOutput);
                     const out = await ct.complete();
-                    console.log(out)
 
                     await new Promise(resolve => setTimeout(resolve, 10));
 
@@ -264,8 +258,6 @@ export default new Elysia({ prefix: "/file" })
                     process: "processing"
                 })
             ])
-
-            console.log(currentKey)
 
             await Promise.all([
                 updateDoc(fileRef, {
