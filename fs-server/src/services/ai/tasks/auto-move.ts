@@ -5,6 +5,8 @@ import { FSTreeRoot, generateTree } from "@utils/tree";
 import { AISuggestion } from "@services/ai/suggestion";
 import { ChatVertexAI } from "@langchain/google-vertexai";
 import type { ToMutateMap } from "@services/etc/mutate";
+import googleConfig from "@config/google.config";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
 export class AIAutoMoveTask implements IAITask {
     name: string = "autoMove";
@@ -15,10 +17,12 @@ export class AIAutoMoveTask implements IAITask {
     }
 
     async run(params?: AITaskRunParams) {
-        const chat = this.config?.chat ?? new ChatVertexAI({
+        const chat = this.config?.chat ?? new ChatGoogleGenerativeAI({
             temperature: 0.1,
             model: "gemini-1.5-flash",
-            location: "europe-west3",
+            apiKey: googleConfig.genAI.apiKey
+            // location: "us-central1",
+            // location: "europe-west3",
         }).withStructuredOutput(z.object({
             filePath: z.string().describe("File path to move"),
             destination: z.string().describe("File destination to move"),

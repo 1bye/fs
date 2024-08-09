@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, DocumentSnapshot, DocumentReference, getDoc } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,8 +23,60 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const db = getDatabase(app);
 
+type FirestoreData = { [key: string]: any };
+
+interface UnwrapOptions {
+    unwrapNested?: boolean; // Whether to unwrap nested references, default is false
+    maxDepth?: number;      // Maximum depth for unwrapping, default is -1 (infinite)
+}
+
+async function unwrapReferences<T extends FirestoreData>(
+    docSnapshot: DocumentSnapshot<T>,
+    options: UnwrapOptions = { unwrapNested: false, maxDepth: -1 }
+): Promise<T> {
+    const { unwrapNested, maxDepth } = options;
+
+    const unwrap = async (data: any, depth: number): Promise<any> => {
+        if (depth > maxDepth && maxDepth !== -1) {
+            return data;
+        }
+
+        const promises = Object.entries(data).map(async ([key, value]) => {
+            if (value instanceof DocumentReference) {
+                const refDoc = await getDoc(value);
+                const unwrappedValue = refDoc.exists() ? refDoc.data() : null;
+
+                if (unwrapNested && unwrappedValue) {
+                    return [key, await unwrap(unwrappedValue, depth + 1)];
+                }
+
+                return [key, unwrappedValue];
+            } else if (value && typeof value === 'object' && !Array.isArray(value)) {
+                return [key, await unwrap(value, depth + 1)];
+            } else if (Array.isArray(value)) {
+                const unwrappedArray = await Promise.all(
+                    value.map(async (item) => (item instanceof DocumentReference ? unwrap(item, depth + 1) : item))
+                );
+                return [key, unwrappedArray];
+            }
+            return [key, value];
+        });
+
+        const unwrappedData = await Promise.all(promises);
+        return Object.fromEntries(unwrappedData);
+    };
+
+    const data = docSnapshot.data();
+    if (!data) {
+        throw new Error('Document has no data');
+    }
+
+    return unwrap(data, 0) as T;
+}
+
 export {
     app,
     firestore,
-    db
+    db,
+    unwrapReferences
 }

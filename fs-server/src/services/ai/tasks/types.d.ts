@@ -21,6 +21,7 @@ export interface AITaskExecutorConfig {
     delay?: number;
 
     onMutate?(data: AITaskExecutorOnMutate): Promise<void> | void;
+    onSuccessfulTaskExecution?(task: AvailableTasks, suggestions: AISuggestion[]): Promise<void> | void;
 }
 
 export interface AITaskExecutorOnMutate {

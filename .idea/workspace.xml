@@ -60,11 +60,11 @@
       <recent name="$PROJECT_DIR$/fs-amqp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/services/storage/fs" />
       <recent name="$PROJECT_DIR$/fs-app/src/routes/(auth)/user" />
       <recent name="$PROJECT_DIR$/fs-server/src/server/models" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/ai" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file" />
-      <recent name="$PROJECT_DIR$/fs-gcp-functions/background-job-on-file-creation/src" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -97,7 +97,7 @@
       <workItem from="1723061146327" duration="1235000" />
       <workItem from="1723117112934" duration="11287000" />
       <workItem from="1723195863966" duration="5332000" />
-      <workItem from="1723221926045" duration="2604000" />
+      <workItem from="1723221926045" duration="7540000" />
     </task>
     <servers />
   </component>

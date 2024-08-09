@@ -1,4 +1,4 @@
-import { doc, runTransaction, collection, getDocs, query, where, Firestore, DocumentReference } from "firebase/firestore";
+import { doc, runTransaction, collection, getDocs, updateDoc, query, where, Firestore, DocumentReference } from "firebase/firestore";
 import { StorageFilesConfig, IStorageFile } from "@services/file/storage/types";
 import { firestore } from "@apps/firebase";
 import { FSFileTag } from "@app/types/fs/file";
@@ -22,6 +22,7 @@ export class StorageFile implements IStorageFile {
             throw new Error("Not found ref to file!");
         }
 
+        const date = new Date().toISOString();
         const docTags = await getDocs(
             query(collection(this.db, "file_tags"), where("user_id", "==", this.config.userId))
         ).then(_ =>
@@ -30,10 +31,7 @@ export class StorageFile implements IStorageFile {
             )
         ) as Record<string, FSFileTag>;
 
-        console.log(docTags);
-
-        await runTransaction(this.db, async tr => {
-            const date = new Date().toISOString();
+        const _tagRefs = await runTransaction(this.db, async tr => {
             const tagRefs: DocumentReference[] = [];
 
             for (const tag of tags) {
@@ -55,11 +53,13 @@ export class StorageFile implements IStorageFile {
                 }
             }
 
-            tr.update(ref, {
-                tags: tagRefs,
-                updated_at: date
-            })
+            return tagRefs;
         })
 
+        await updateDoc(ref, {
+            // tags: _tagRefs.map(_ => _.id),
+            tags: _tagRefs,
+            updated_at: date
+        })
     }
 }

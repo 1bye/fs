@@ -19,7 +19,15 @@ export interface AISuggestionConfig<Args extends SuggestionArgs = SuggestionArgs
 export interface IAISuggestionExecutor {
     config: AISuggestionExecutorConfig;
 
-    run(suggestions: IAISuggestion[]): Promise<AISuggestionExecutorRunOutput>
+    run(suggestions: IAISuggestion[]): Promise<AISuggestionExecutorRunOutput>;
+
+    continuous(): IAISuggestionExecutorContinuous
+}
+
+export interface IAISuggestionExecutorContinuous {
+    run(suggestion: IAISuggestion[]): void;
+
+    complete(): Promise<AISuggestionExecutorRunOutput>;
 }
 
 export interface AISuggestionExecutorConfig {

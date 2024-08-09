@@ -1,3 +1,5 @@
+import { DocumentReference } from "firebase/firestore";
+
 export interface FSFile {
     name: string;
     size: number;
@@ -9,14 +11,18 @@ export interface FSFile {
     ai: {
         suggestions: {
             tasks: string[];
-            lastSuggestedAt?: string;
+            last_suggested_at?: string;
         }
     };
 
-    tags: string[];
+    tags: FSFileTag[];
 
     created_at: string;
     updated_at: string;
+}
+
+export interface FSFileRaw extends Omit<FSFile, "tags"> {
+    tags: DocumentReference[];
 }
 
 export interface FSFileTag {

@@ -26,7 +26,7 @@ export class AITaskExecutor implements IAITaskExecutor {
 
             this.config.verbose && console.log(`Running AI Task ${task}`);
 
-            suggestions.push(...await aiTask.run({
+            const output = await aiTask.run({
                 mutateParam: async (param: string, value: any): Promise<void> => {
                     this.config?.onMutate?.({
                         param,
@@ -34,7 +34,11 @@ export class AITaskExecutor implements IAITaskExecutor {
                         value
                     })
                 }
-            }));
+            });
+
+            suggestions.push(...output);
+
+            await this.config?.onSuccessfulTaskExecution?.(task, output);
 
             await new Promise(resolve => setTimeout(resolve, this.config.delay ?? 10))
         }

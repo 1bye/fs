@@ -5,6 +5,8 @@ import { FSTreeRoot, generateTree } from "@utils/tree";
 import { AISuggestion } from "@services/ai/suggestion";
 import { ChatVertexAI } from "@langchain/google-vertexai";
 import { ToMutateMap } from "@services/etc/mutate";
+import googleConfig from "@config/google.config";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
 export class AIAutoRenameTask implements IAITask {
     name: string = "autoRename";
@@ -15,10 +17,12 @@ export class AIAutoRenameTask implements IAITask {
     }
 
     async run(params?: AITaskRunParams) {
-        const chat = this.config?.chat ?? new ChatVertexAI({
+        const chat = this.config?.chat ?? new ChatGoogleGenerativeAI({
             temperature: 0.1,
             model: "gemini-1.5-flash",
-            location: "europe-west3",
+            apiKey: googleConfig.genAI.apiKey
+            // location: "us-central1",
+            // location: "europe-west3",
         }).withStructuredOutput(z.object({
             originalName: z.string().describe("Original file name"),
             newName: z.string().describe("New file name after renaming"),

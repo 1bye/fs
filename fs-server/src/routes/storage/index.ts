@@ -5,8 +5,9 @@ import { handleSession } from "@app/server/session";
 import { GoogleStorage, TransferManager } from "@services/storage/google";
 import userConfig from "@config/user.config";
 import { json } from "@app/server/response";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, where, query, getDoc } from "firebase/firestore";
 import { firestore } from "@apps/firebase";
+import { FSFile, FSFileRaw, FSFileTag } from "@app/types/fs/file";
 
 export default new Elysia({ prefix: "/storage" })
     .derive(handleSession)
@@ -51,5 +52,20 @@ export default new Elysia({ prefix: "/storage" })
             query(filesRef, where("user_id", "==", user.id))
         )
 
-        return json(files.docs.map(_ => _.data()))
+        return json(
+            await Promise.all(
+                files.docs.map(async _ => {
+                    const { tags: rawTags, ...file } = _.data() as FSFileRaw;
+
+                    const tags = await Promise.all(
+                        rawTags.map(async _ => await getDoc(_))
+                    )
+
+                    return {
+                        ...file,
+                        tags: tags.map(_ => _.data() as FSFileTag)
+                    } as FSFile;
+                })
+            )
+        )
     })

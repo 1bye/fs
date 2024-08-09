@@ -3,9 +3,10 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { z } from "zod";
 import { generateTree } from "@utils/tree";
 import { AISuggestion } from "@services/ai/suggestion";
-import { ChatVertexAI } from "@langchain/google-vertexai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { MutateMap } from "@services/etc/mutate";
 import { SimpleSpread } from "@app/types/etc";
+import googleConfig from "@config/google.config";
 
 export interface AITaskFileTagConfig extends AITaskFileConfig {
     tags: string[];
@@ -32,10 +33,12 @@ export class AIAutoTagTask implements IAIAutoTagTask {
     }
 
     async run(params?: AITaskRunParams) {
-        const chat = this.config?.chat ?? new ChatVertexAI({
+        const chat = this.config?.chat ?? new ChatGoogleGenerativeAI({
             temperature: 0.1,
             model: "gemini-1.5-flash",
-            location: "europe-west3",
+            apiKey: googleConfig.genAI.apiKey
+            // location: "us-central1",
+            // location: "europe-west3",
         }).withStructuredOutput(z.object({
             tags: z.array(z.string()).describe("Generated tags based on file content"),
         }), {

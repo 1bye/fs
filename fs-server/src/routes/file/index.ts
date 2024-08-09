@@ -20,8 +20,10 @@ import { FileInput } from "@services/file/input";
 import { AIAutoRenameTask } from "@services/ai/tasks/auto-rename";
 import { FSFile } from "@app/types/fs/file";
 import { StorageFile } from "@services/file/storage";
-import { AIAutoTagTask, AITaskFileTagConfig, IAIAutoTagTask } from "@services/ai/tasks/auto-tag";
+import { AIAutoTagTask, AITaskFileTagConfig } from "@services/ai/tasks/auto-tag";
 import { FileAnalyzerVideoType } from "@services/file/analyzer/types/video";
+import { AISuggestion } from "@services/ai/suggestion";
+import { Storage } from "@services/storage"
 
 const ws = new Elysia({ prefix: "/processing" })
     .derive(handleSecretSession)
@@ -69,7 +71,7 @@ export default new Elysia({ prefix: "/file" })
 
         try {
             const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
-            const storage = new GoogleStorage({
+            const googleStorage = new GoogleStorage({
                 bucket: body.bucket,
                 prefix: user.id
             });
@@ -77,6 +79,9 @@ export default new Elysia({ prefix: "/file" })
                 bucket: userConfig.fileBucket,
                 prefix: user.id
             });
+            const storage = new Storage({
+                userId: user.id
+            })
 
             const pureKey = body.name.replace(`${user.id}/`, "");
             let currentKey = pureKey;
@@ -85,12 +90,12 @@ export default new Elysia({ prefix: "/file" })
             const fileProcessingPath = `file_processing/${user.id}/${uniqueID}`;
 
             console.log("Downloading file...")
-            const [file, tree, fileRef] = await Promise.all([
-                storage.downloadFileAsChunk({
+            const [file, tree, fileRef, userFileTags] = await Promise.all([
+                googleStorage.downloadFileAsChunk({
                     key: body.name,
                     chunkSize: 15 * 1024 * 1024 /* Max 15MB */
                 }),
-                storage.getTree(),
+                googleStorage.getTree(),
                 addDoc(collection(firestore, "files"), {
                     content_type: body.contentType ?? null,
                     created_at: new Date().toISOString(),
@@ -105,7 +110,8 @@ export default new Elysia({ prefix: "/file" })
                         }
                     },
                     tags: []
-                } as FSFile)
+                } as FSFile),
+                storage.getAllTags()
             ])
 
             await set(ref(db, fileProcessingPath), {
@@ -122,7 +128,7 @@ export default new Elysia({ prefix: "/file" })
             const [out] = await Promise.all([
                 (async () => {
                     const analyzer = new FileAnalyzer({
-                        file
+                        file,
                     });
 
                     analyzer.registerType([
@@ -134,7 +140,7 @@ export default new Elysia({ prefix: "/file" })
                     const [analyzerOutput] = await Promise.all([
                         analyzer.analyze(),
                         // storage.moveFileToAnotherBucket({
-                        storage.moveFileToAnotherBucket({
+                        googleStorage.moveFileToAnotherBucket({
                             currentKey: body.name,
                             destinationKey: `${user.id}/${pureKey}`,
                             destinationBucket: userConfig.fileBucket,
@@ -148,34 +154,6 @@ export default new Elysia({ prefix: "/file" })
                         }),
                         fsTree: tree
                     });
-
-                    console.log(analyzerOutput)
-                    const taskExecutor = new AITaskExecutor({
-                        registeredTasks: [
-                            new AIAutoMoveTask({
-                                mutate: fileMut
-                            }),
-                            new AIAutoRenameTask({
-                                mutate: fileMut
-                            }),
-                            // @ts-ignore
-                            new AIAutoTagTask({
-                                mutate: fileMut.extend({
-                                    tags: [] as string[],
-                                    maxToAssignTags: 1,
-                                    minToAssignTags: 3
-                                }) as MutateMap<AITaskFileTagConfig>
-                            })
-                        ],
-                        async onMutate({ param, value }: AITaskExecutorOnMutate) {4
-                            // @ts-ignore
-                            fileMut.set(param, value)
-                        }
-                    });
-
-                    console.log("Executing tasks...")
-                    const taskExecutorOutput = await taskExecutor.execute(tasks);
-                    console.log(JSON.stringify(taskExecutorOutput, null, 2))
 
                     const suggestionExecutor = new AISuggestionExecutor({
                         types: {
@@ -207,9 +185,42 @@ export default new Elysia({ prefix: "/file" })
                             }
                         }
                     });
+                    const ct = suggestionExecutor.continuous();
+
+                    console.log(analyzerOutput)
+                    const taskExecutor = new AITaskExecutor({
+                        registeredTasks: [
+                            new AIAutoMoveTask({
+                                mutate: fileMut
+                            }),
+                            new AIAutoRenameTask({
+                                mutate: fileMut
+                            }),
+                            // @ts-ignore
+                            new AIAutoTagTask({
+                                mutate: fileMut.extend({
+                                    tags: userFileTags.map(_ => _.name),
+                                    maxToAssignTags: 1,
+                                    minToAssignTags: 3
+                                }) as MutateMap<AITaskFileTagConfig>
+                            })
+                        ],
+                        async onMutate({ param, value }: AITaskExecutorOnMutate) {4
+                            // @ts-ignore
+                            fileMut.set(param, value)
+                        },
+                        onSuccessfulTaskExecution(task: AvailableTasks, suggestions: AISuggestion[]): Promise<void> | void {
+                            ct.run(suggestions);
+                        }
+                    });
+
+                    console.log("Executing tasks...")
+                    const taskExecutorOutput = await taskExecutor.execute(tasks);
+                    console.log(JSON.stringify(taskExecutorOutput, null, 2))
 
                     console.log("Making suggestions...")
-                    const out = await suggestionExecutor.run(taskExecutorOutput);
+                    // const out = await suggestionExecutor.run(taskExecutorOutput);
+                    const out = await ct.complete();
                     console.log(out)
 
                     await new Promise(resolve => setTimeout(resolve, 10));
@@ -233,10 +244,9 @@ export default new Elysia({ prefix: "/file" })
                     ai: {
                         suggestions: {
                             tasks,
-                            lastSuggestedAt: new Date().toISOString()
+                            last_suggested_at: new Date().toISOString()
                         }
-                    },
-                    tags: []
+                    }
                 } as Partial<FSFile>),
                 update(ref(db, fileProcessingPath), {
                     updated_at: new Date().toISOString(),
