@@ -3,11 +3,12 @@ import * as fs from "node:fs/promises";
 import { FileAnalyzerOutput } from "@services/file/analyzer/output";
 import { FileBaseType } from "@services/file/analyzer/types/base";
 import { FileInput } from "@services/file/input";
+import TextExtensionTypes from "@etc/json/text-ext-types.json";
 
 export class FileAnalyzerTextType extends FileBaseType implements IFileAnalyzerType {
     config: FileAnalyzerTypeConfig;
 
-    fileExtensions: string[] = [".txt"];
+    fileExtensions: string[] = [".txt", ...TextExtensionTypes];
     fileTypes: string[] = ["text/plain"];
 
     constructor(config: FileAnalyzerTypeConfig) {

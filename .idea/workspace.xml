@@ -39,7 +39,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/tests/file/analyzer/tasks",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/etc",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,11 +53,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/src/etc" />
+      <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
       <recent name="$PROJECT_DIR$/fs-server/tests/file/analyzer/tasks" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/ai/tasks" />
       <recent name="$PROJECT_DIR$/fs-amqp" />
-      <recent name="$PROJECT_DIR$/fs-server" />
-      <recent name="$PROJECT_DIR$/fs-app" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/fs-app/src/routes/(auth)/user" />
@@ -97,6 +97,7 @@
       <workItem from="1723061146327" duration="1235000" />
       <workItem from="1723117112934" duration="11287000" />
       <workItem from="1723195863966" duration="5332000" />
+      <workItem from="1723221926045" duration="2604000" />
     </task>
     <servers />
   </component>
