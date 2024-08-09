@@ -4,7 +4,7 @@ import { z } from "zod";
 import { FSTreeRoot, generateTree } from "@utils/tree";
 import { AISuggestion } from "@services/ai/suggestion";
 import { ChatVertexAI } from "@langchain/google-vertexai";
-import type { ToMutateMap } from "@services/etc/mutate";
+import { ToMutateMap } from "@services/etc/mutate";
 
 export class AIAutoRenameTask implements IAITask {
     name: string = "autoRename";

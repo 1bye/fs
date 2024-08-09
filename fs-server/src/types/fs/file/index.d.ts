@@ -18,3 +18,11 @@ export interface FSFile {
     created_at: string;
     updated_at: string;
 }
+
+export interface FSFileTag {
+    user_id: string;
+    name: string;
+
+    created_at: string;
+    updated_at: string;
+}

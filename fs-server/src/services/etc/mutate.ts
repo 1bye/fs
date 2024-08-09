@@ -16,7 +16,6 @@ export class MutateMap<T extends Record<string, any>> extends Map<keyof T, T[key
         return this;
     }
 
-    // Helper method to handle setting values in nested objects
     private setDeep(path: (string | number)[], value: any) {
         let obj = this.get(path[0] as keyof T);
         if (typeof obj !== 'object' || obj === null) {
@@ -32,6 +31,25 @@ export class MutateMap<T extends Record<string, any>> extends Map<keyof T, T[key
         }
 
         current[path[path.length - 1]] = value;
+    }
+
+    toObject(): T {
+        const obj = {} as T;
+        for (const [key, value] of this) {
+            if (value instanceof MutateMap) {
+                obj[key] = value.toObject();
+            } else {
+                obj[key] = value;
+            }
+        }
+        return obj;
+    }
+
+    extend<U extends Record<string, any>>(newData: U): MutateMap<T & U> {
+        // Merge the current data with the new data
+        const mergedData = { ...this.toObject(), ...newData };
+        // Return a new MutateMap with the merged data
+        return new MutateMap<T & U>(mergedData);
     }
 }
 

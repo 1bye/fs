@@ -19,6 +19,8 @@ import { MutateMap } from "@services/etc/mutate";
 import { FileInput } from "@services/file/input";
 import { AIAutoRenameTask } from "@services/ai/tasks/auto-rename";
 import { FSFile } from "@app/types/fs/file";
+import { StorageFile } from "@services/file/storage";
+import { AIAutoTagTask, AITaskFileTagConfig, IAIAutoTagTask } from "@services/ai/tasks/auto-tag";
 
 const ws = new Elysia({ prefix: "/processing" })
     .derive(handleSecretSession)
@@ -45,6 +47,15 @@ const ws = new Elysia({ prefix: "/processing" })
         }
     })
 
+// TODO: Make new class UndoMap (Or the representation in some classes),
+//  which allows to run undo of called functions. (Just specify undo function of function)
+//  for ex:
+//  ```
+//  storage.uploadFile(filePath);
+//  const step = storage.getSteps()[0];
+//  step.undo(); // (this function just call another function storage.removeFile(filePath))
+//  ```
+
 export default new Elysia({ prefix: "/file" })
     .use(ws)
 
@@ -55,7 +66,7 @@ export default new Elysia({ prefix: "/file" })
             throw jsonError("File size can't be 0");
         }
 
-        const tasks: AvailableTasks[] = ["autoMove", "autoRename"];
+        const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
         const storage = new GoogleStorage({
             bucket: body.bucket,
             prefix: user.id
@@ -143,6 +154,14 @@ export default new Elysia({ prefix: "/file" })
                         }),
                         new AIAutoRenameTask({
                             mutate: fileMut
+                        }),
+                        // @ts-ignore
+                        new AIAutoTagTask({
+                            mutate: fileMut.extend({
+                                tags: [] as string[],
+                                maxToAssignTags: 1,
+                                minToAssignTags: 3
+                            }) as MutateMap<AITaskFileTagConfig>
                         })
                     ],
                     async onMutate({ param, value }: AITaskExecutorOnMutate) {4
@@ -157,10 +176,15 @@ export default new Elysia({ prefix: "/file" })
 
                 const suggestionExecutor = new AISuggestionExecutor({
                     types: {
-                        storage: userStorage
+                        storage: userStorage,
+                        file: new StorageFile({
+                            fileRef,
+                            userId: user.id
+                        })
                     },
                     allowedTasks: {
-                        "storage": ["moveFile", "renameFile"]
+                        "storage": ["moveFile", "renameFile"],
+                        "file": ["tagFile"]
                     },
                     callbacks: {
                         async onSuccessfulSuggestionRun(suggestion: IAISuggestion): Promise<void> {
@@ -180,7 +204,6 @@ export default new Elysia({ prefix: "/file" })
                         }
                     }
                 });
-
 
                 console.log("Making suggestions...")
                 const out = await suggestionExecutor.run(taskExecutorOutput);
