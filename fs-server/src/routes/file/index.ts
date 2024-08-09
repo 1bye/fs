@@ -12,7 +12,7 @@ import { IAISuggestion } from "@services/ai/suggestion/types";
 import path from "node:path";
 import { db, firestore } from "@apps/firebase";
 import { set, ref, onValue, remove, update } from "firebase/database";
-import { addDoc, updateDoc, collection } from "firebase/firestore";
+import { addDoc, updateDoc, collection, getDoc, query, where, getDocs } from "firebase/firestore";
 import { randomBytes } from "node:crypto";
 import { jsonError } from "@app/server/response/error";
 import { MutateMap } from "@services/etc/mutate";
@@ -69,8 +69,27 @@ export default new Elysia({ prefix: "/file" })
             throw jsonError("File size can't be 0");
         }
 
+        const [,uniqueID] = body.name.split("/") as [
+            string,
+            string,
+        ];
+
+        const { tasks } = await getDocs(
+            query(
+                collection(firestore, "file_upcoming_tasks"),
+                where("user_id", "==", user.id),
+                where("id", "==", uniqueID),
+            )
+        ).then(_ => _.docs[0].data()) as {
+            id: string;
+            user_id: string;
+            tasks: AvailableTasks[];
+        }
+
+        console.log(tasks)
+
         try {
-            const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
+            // const tasks: AvailableTasks[] = ["autoMove", "autoRename", "autoTag"];
             const googleStorage = new GoogleStorage({
                 bucket: body.bucket,
                 prefix: user.id

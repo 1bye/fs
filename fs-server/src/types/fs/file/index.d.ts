@@ -1,4 +1,5 @@
 import { DocumentReference } from "firebase/firestore";
+import { AvailableTasks } from "@services/ai/tasks/types";
 
 export interface FSFile {
     name: string;
@@ -10,7 +11,7 @@ export interface FSFile {
 
     ai: {
         suggestions: {
-            tasks: string[];
+            tasks: AvailableTasks[];
             last_suggested_at?: string;
         }
     };

@@ -5,9 +5,11 @@ import { handleSession } from "@app/server/session";
 import { GoogleStorage, TransferManager } from "@services/storage/google";
 import userConfig from "@config/user.config";
 import { json } from "@app/server/response";
-import { collection, getDocs, where, query, getDoc } from "firebase/firestore";
+import { collection, getDocs, where, query, getDoc, addDoc } from "firebase/firestore";
 import { firestore } from "@apps/firebase";
 import { FSFile, FSFileRaw, FSFileTag } from "@app/types/fs/file";
+import fs from "fs/promises";
+import { randomBytes } from "node:crypto";
 
 export default new Elysia({ prefix: "/storage" })
     .derive(handleSession)
@@ -19,18 +21,29 @@ export default new Elysia({ prefix: "/storage" })
             filepond?: ["{}", Blob];
         }
 
-        const ID = `${user.id}-${Date.now()}`;
+        const uniquePathID = `${user.id}-${Date.now()}`;
         const tr = new TransferManager(storage.bucket);
 
         if (data.filepond) {
             const [, file] = data.filepond;
-            const filePath = `${serverConfig.tmpFolder}/${ID}/${file.name}`;
+            const uniqueID = randomBytes(12).toString("hex");
+            const filePath = `${serverConfig.tmpFolder}/${uniquePathID}/${file.name}`;
+            const fileToUpload = `${user.id}/${uniqueID}/${file.name}`;
 
             await Bun.write(filePath, file);
 
-            const res = await tr.uploadFileInChunks(filePath, {
-                uploadName: `${user.id}/${file.name}`,
-            })
+            const [res] = await Promise.all([
+                tr.uploadFileInChunks(filePath, {
+                    uploadName: fileToUpload,
+                }),
+                addDoc(collection(firestore, "file_upcoming_tasks"), {
+                    user_id: user.id,
+                    id: uniqueID,
+                    tasks: ["autoMove", "autoRename", "autoTag"]
+                })
+            ])
+
+            await fs.unlink(filePath);
 
             console.log(res);
 
