@@ -69,6 +69,8 @@ export default new Elysia({ prefix: "/file" })
             throw jsonError("File size can't be 0");
         }
 
+        console.log(body)
+
         const [userId, uniqueID, fileName] = body.name.split("/") as [
             string,
             string,
@@ -109,6 +111,8 @@ export default new Elysia({ prefix: "/file" })
             const pureKey = fileName.replace(`${user.id}/`, "");
             let currentKey = pureKey;
 
+            console.log({ pureKey })
+
             const uniqueID = randomBytes(12).toString("hex");
             const fileProcessingPath = `file_processing/${user.id}/${uniqueID}`;
 
@@ -139,6 +143,8 @@ export default new Elysia({ prefix: "/file" })
 
             file.setSize(body.size ?? 0);
             body.contentType && file.setType(body.contentType);
+
+            console.log(file.getPath())
 
             await set(ref(db, fileProcessingPath), {
                 file: currentKey,
@@ -223,7 +229,7 @@ export default new Elysia({ prefix: "/file" })
                                 mutate: fileMut
                             }),
                             // @ts-ignore
-                            new AIAutoTagTask({
+                            new AIAutoTagTask({s
                                 mutate: fileMut.extend({
                                     tags: userFileTags.map(_ => _.name),
                                     maxToAssignTags: 1,
