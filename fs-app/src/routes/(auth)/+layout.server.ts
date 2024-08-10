@@ -1,8 +1,9 @@
 import { type LoadEvent, redirect, type RequestEvent } from "@sveltejs/kit";
 import authConfig from "$lib/config/auth.config";
-import { PUBLIC_SERVER_URL } from "$env/static/public";
+import { PUBLIC_SERVER_URL, PUBLIC_ENV, PUBLIC_DOMAIN } from "$env/static/public";
+import cookie from "cookie"
 
-export async function load({ cookies, fetch, setHeaders }: LoadEvent & RequestEvent) {
+export async function load({ cookies, fetch }: LoadEvent & RequestEvent) {
     const accessToken = cookies.get(authConfig.accessTokenCookieName);
     const refreshToken = cookies.get(authConfig.refreshTokenCookieName);
 
@@ -13,7 +14,14 @@ export async function load({ cookies, fetch, setHeaders }: LoadEvent & RequestEv
     if (!accessToken) {
         const res = await fetch(`${PUBLIC_SERVER_URL}/v1/auth/refresh-token`, {
             method: "GET",
-            credentials: "include"
+            headers: {
+                "Cookie": cookie.serialize(authConfig.refreshTokenCookieName, refreshToken as string, {
+                    path: "/",
+                    domain: PUBLIC_DOMAIN,
+                    httpOnly: true,
+                    secure: PUBLIC_ENV === "production"
+                })
+            }
         });
 
         if (!res.ok) {

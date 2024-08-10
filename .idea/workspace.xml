@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/+layout.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/+layout.server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +41,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "production",
     "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/services/file/analyzer/types",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

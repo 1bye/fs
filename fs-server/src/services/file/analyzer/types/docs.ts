@@ -4,7 +4,8 @@ import { FileAnalyzerOutput } from "@services/file/analyzer/output";
 import { FileBaseType } from "@services/file/analyzer/types/base";
 import { FileInput } from "@services/file/input";
 import mammoth from "mammoth";
-import pdf from "pdf-parse";
+// @ts-ignore
+import pdf from "pdf-parse/lib/pdf-parse";
 
 export class FileAnalyzerDocumentType extends FileBaseType implements IFileAnalyzerType {
     config: FileAnalyzerTypeConfig;

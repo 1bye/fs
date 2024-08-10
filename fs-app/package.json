@@ -34,6 +34,7 @@
   },
   "type": "module",
   "dependencies": {
+    "cookie": "^0.6.0",
     "filepond": "^4.31.1",
     "m3-svelte": "^3.2.7"
   }
