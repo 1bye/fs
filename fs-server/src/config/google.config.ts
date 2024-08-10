@@ -5,5 +5,6 @@ export default {
     projectId: env("GC_PROJECT_ID"),
     genAI: {
         apiKey: env("GC_API_KEY"),
-    }
+    },
+    tmpBucket: "fs-dev-tmp"
 } as GoogleConfig;

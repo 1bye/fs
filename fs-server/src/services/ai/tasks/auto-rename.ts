@@ -7,6 +7,7 @@ import { ChatVertexAI } from "@langchain/google-vertexai";
 import { ToMutateMap } from "@services/etc/mutate";
 import googleConfig from "@config/google.config";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import path from "node:path";
 
 export class AIAutoRenameTask implements IAITask {
     name: string = "autoRename";
@@ -27,7 +28,7 @@ export class AIAutoRenameTask implements IAITask {
             originalName: z.string().describe("Original file name"),
             newName: z.string().describe("New file name after renaming"),
             resolvedPath: z.string().describe("File path after renaming, with new renamed file name"),
-            filePath: z.string().describe("File path before renaming, with old file name"),
+            filePath: z.string().describe("File path before renaming, with old file name and path"),
         }), {
             name: "renameFile"
         });
@@ -36,6 +37,13 @@ export class AIAutoRenameTask implements IAITask {
             file: AITaskFileConfig["file"];
             fsTree: FSTreeRoot;
         }>
+        //
+        console.log("FILERENAME", mut.toObject(), generateTree(mut.get("fsTree"), {
+            showFiles: false,
+            showFolders: true
+        }))
+
+        const { file, fsTree } = mut.toObject();
 
         const prompt = PromptTemplate.fromTemplate(`You are an AI tasked with renaming files to better reflect their content. For each file provided, you need to analyze its content and decide on a more appropriate, descriptive name. The new name should be consistent with the existing naming conventions.
 
@@ -62,12 +70,12 @@ Perform the following tasks:
         const output = await chat.invoke([
             ["system", "You are a helpful assistant"],
             ["human", await prompt.format({
-                file_details: `File name: ${mut.get("file").name}, File Path: ${mut.get("file").getPath()}`,
-                folder_structure: generateTree(mut.get("fsTree"), {
+                file_details: `File name: ${file.name}, File Path: ${path.dirname(file.name as string ?? "")}`,
+                folder_structure: generateTree(fsTree, {
                     showFiles: false,
                     showFolders: true
                 }),
-                file_content: await mut.get("file").getContent(),
+                file_content: await file.getContent(),
             })]
         ]) as {
             originalName: string;

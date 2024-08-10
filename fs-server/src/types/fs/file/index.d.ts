@@ -2,6 +2,7 @@ import { DocumentReference } from "firebase/firestore";
 import { AvailableTasks } from "@services/ai/tasks/types";
 
 export interface FSFile {
+    id?: string;
     name: string;
     size: number;
     content_type?: string | null;

@@ -71,7 +71,8 @@ export class AISuggestionExecutor implements IAISuggestionExecutor {
         for (const _suggestion of suggestions) {
             const out = await this._runSuggestion(_suggestion);
 
-            success = out.success;
+            if (!out.success)
+                success = out.success;
 
             if (out.error) {
                 errors[_suggestion.getSuggestion().type] = out.error;

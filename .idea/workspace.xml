@@ -38,8 +38,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "production",
-    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/etc",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-server/src/services/file/analyzer/types",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,18 +53,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/fs-server/src/etc" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
+      <recent name="$PROJECT_DIR$/fs-server/tests/file/analyzer/type" />
+      <recent name="$PROJECT_DIR$/fs-server/src/etc/json" />
+      <recent name="$PROJECT_DIR$/fs-server/src/etc" />
       <recent name="$PROJECT_DIR$/fs-server/tests/file/analyzer/tasks" />
-      <recent name="$PROJECT_DIR$/fs-server/src/services/ai/tasks" />
-      <recent name="$PROJECT_DIR$/fs-amqp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-server/tmp/__prepared" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/storage/fs" />
       <recent name="$PROJECT_DIR$/fs-app/src/routes/(auth)/user" />
       <recent name="$PROJECT_DIR$/fs-server/src/server/models" />
       <recent name="$PROJECT_DIR$/fs-server/src/services/ai" />
-      <recent name="$PROJECT_DIR$/fs-server/src/services/file" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -97,7 +97,8 @@
       <workItem from="1723061146327" duration="1235000" />
       <workItem from="1723117112934" duration="11287000" />
       <workItem from="1723195863966" duration="5332000" />
-      <workItem from="1723221926045" duration="13454000" />
+      <workItem from="1723221926045" duration="16845000" />
+      <workItem from="1723296938055" duration="13099000" />
     </task>
     <servers />
   </component>

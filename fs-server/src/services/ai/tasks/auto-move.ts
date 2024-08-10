@@ -3,10 +3,10 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { z } from "zod";
 import { FSTreeRoot, generateTree } from "@utils/tree";
 import { AISuggestion } from "@services/ai/suggestion";
-import { ChatVertexAI } from "@langchain/google-vertexai";
 import type { ToMutateMap } from "@services/etc/mutate";
 import googleConfig from "@config/google.config";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import path from "node:path";
 
 export class AIAutoMoveTask implements IAITask {
     name: string = "autoMove";
@@ -36,6 +36,8 @@ export class AIAutoMoveTask implements IAITask {
             fsTree: FSTreeRoot;
         }>
 
+        const { file, fsTree } = mut.toObject();
+
         const prompt = PromptTemplate.fromTemplate(`You are an AI tasked with organizing files into a hierarchical folder structure. For each file provided, you need to analyze its content and decide the most appropriate folder to place it in. If a suitable folder does not exist, create it. Finally, move the file to the chosen folder and update the folder structure accordingly.
 
 Here is the current folder structure:
@@ -61,12 +63,12 @@ Perform the following tasks:
         const output = await chat.invoke([
             ["system", "You are a helpful assistant"],
             ["human", await prompt.format({
-                file_details: `File name: ${mut.get("file").name}, File Path: ${mut.get("file").getPath()}`,
-                folder_structure: generateTree(mut.get("fsTree"), {
+                file_details: `File name: ${file.name}, File Path: ${path.dirname(file.name as string ?? "")}`,
+                folder_structure: generateTree(fsTree, {
                     showFiles: false,
                     showFolders: true
                 }),
-                file_content: await mut.get("file").getContent(),
+                file_content: await file.getContent(),
             })]
         ]) as {
             filePath: string;

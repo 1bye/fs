@@ -75,6 +75,7 @@ export default new Elysia({ prefix: "/storage" })
                     )
 
                     return {
+                        id: _.ref.id,
                         ...file,
                         tags: tags.map(_ => _.data() as FSFileTag)
                     } as FSFile;

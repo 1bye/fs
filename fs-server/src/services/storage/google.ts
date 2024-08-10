@@ -102,6 +102,8 @@ export class GoogleStorage {
                 //     ifGenerationMatch: 0,
                 // },
             });
+
+        this.verbose && console.log("Successfully moved file!");
     }
 
     async renameFile({ to, from }: {
@@ -112,6 +114,8 @@ export class GoogleStorage {
 
         await this.bucket.file(path.join(this.prefix ?? "", from))
             .rename(path.join(this.prefix ?? "", to));
+
+        this.verbose && console.log("Successfully renamed file!");
     }
 
     async copyFileToAnotherBucket({ currentKey, destinationKey, destinationBucket, metadata }: {
@@ -147,6 +151,8 @@ export class GoogleStorage {
         await this.bucket
             .file(currentKey)
             .move(this.storage.bucket(destinationBucket).file(destinationKey));
+
+        this.verbose && console.log("Successfully moved file to another bucket");
     }
 
     async getTree(
@@ -198,5 +204,15 @@ export class GoogleStorage {
         }
 
         return tree;
+    }
+
+    async deleteFile({ key }: {
+        key: string;
+    }) {
+        this.verbose && console.log("Deleting file!");
+
+        await this.bucket.file(key).delete();
+
+        this.verbose && console.log("Successfully deleted file!");
     }
 }

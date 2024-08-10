@@ -79,7 +79,7 @@ ACCESS_URL="https://flow.nouro.app/assigned/$UUID/validate?assign_type=code&code
 
 # Output the final URL
 echo "Access your flow at: $ACCESS_URL"`,
-            pathToFile: "flow-script.sh"
+            pathToFile: "TimescaleDB in 100 Seconds [69Tzh_0lHJ8].mp4"
         }),
         fsTree: {
             // flow: {
