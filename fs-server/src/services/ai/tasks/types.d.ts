@@ -4,7 +4,7 @@ import { AISuggestion } from "@services/ai/suggestion";
 import { MutateMap } from "@services/etc/mutate";
 import { IFileInput } from "@services/file/input/types";
 
-export type AvailableTasks = "autoCategory" | "autoMove" | "autoTag" | "autoRename";
+export type AvailableTasks = "autoMove" | "autoTag" | "autoRename";
 
 export interface IAITaskExecutor {
     config: AITaskExecutorConfig;

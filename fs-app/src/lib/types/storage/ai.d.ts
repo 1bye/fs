@@ -1,0 +1,1 @@
+export type AIStorageFileTasks = "autoMove" | "autoTag" | "autoRename";

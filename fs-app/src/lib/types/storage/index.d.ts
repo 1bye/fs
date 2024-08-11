@@ -1,7 +1,11 @@
-import { DocumentReference } from "firebase/firestore";
-import { AvailableTasks } from "@services/ai/tasks/types";
+import type { AIStorageFileTasks } from "$lib/types/storage/ai";
 
-export interface FSFile {
+export interface BaseTreeStorage {
+    files: StorageTreeRoot;
+    tags: StorageFileTag[];
+}
+
+export interface StorageFile {
     id?: string;
     name: string;
     size: number;
@@ -12,22 +16,18 @@ export interface FSFile {
 
     ai: {
         suggestions: {
-            tasks: AvailableTasks[];
+            tasks: AIStorageFileTasks[];
             last_suggested_at?: string;
         }
     };
 
-    tags: FSFileTag[];
+    tags: StorageFileTag[];
 
     created_at: string;
     updated_at: string;
 }
 
-export interface FSFileRaw extends Omit<FSFile, "tags"> {
-    tags: DocumentReference[];
-}
-
-export interface FSFileTag {
+export interface StorageFileTag {
     user_id: string;
     name: string;
 
@@ -39,13 +39,14 @@ export type StorageTreeRoot = (StorageTreeFile | StorageTreeFolder)[];
 
 export interface StorageTreeFile {
     type: "file";
-    data: FSFile;
+    data: StorageFile;
 }
 
 export interface StorageTreeFolder {
     type: "folder";
-    name: string;
+
     path: string;
+    name: string;
     /**
      * Sum of sizes of files/folders in it
      */
@@ -54,7 +55,7 @@ export interface StorageTreeFolder {
     /**
      * All tags of child files/folders
      */
-    tags: FSFileTag[];
+    tags: StorageFileTag[];
 
     tagCount: Record<string, number>
 

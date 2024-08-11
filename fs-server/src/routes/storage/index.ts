@@ -10,6 +10,8 @@ import { firestore } from "@apps/firebase";
 import { FSFile, FSFileRaw, FSFileTag } from "@app/types/fs/file";
 import fs from "fs/promises";
 import { randomBytes } from "node:crypto";
+import { buildStorageTree } from "@utils/storage/tree";
+import { Storage } from "@services/storage";
 
 export default new Elysia({ prefix: "/storage" })
     .derive(handleSession)
@@ -58,16 +60,23 @@ export default new Elysia({ prefix: "/storage" })
         type: "formdata"
     })
 
-    .get("/", async ({ user }) => {
-        const filesRef = collection(firestore, "files");
+    .get("/", async ({ user, query: q }) => {
+        const storage = new Storage({
+            userId: user.id
+        });
 
-        const files = await getDocs(
-            query(filesRef, where("user_id", "==", user.id))
-        )
+        try {
+            const filesRef = collection(firestore, "files");
 
-        return json(
-            await Promise.all(
-                files.docs.map(async _ => {
+            const [fileRefs, allTags] = await Promise.all([
+                getDocs(
+                    query(filesRef, where("user_id", "==", user.id))
+                ),
+                storage.getAllTags()
+            ])
+
+            const files = await Promise.all(
+                fileRefs.docs.map(async _ => {
                     const { tags: rawTags, ...file } = _.data() as FSFileRaw;
 
                     const tags = await Promise.all(
@@ -81,5 +90,16 @@ export default new Elysia({ prefix: "/storage" })
                     } as FSFile;
                 })
             )
-        )
+
+            return json({
+                tags: allTags,
+                files: q.format === "tree" ? buildStorageTree(files) : files,
+            });
+        } catch (e) {
+            throw jsonError(e as Error);
+        }
+    }, {
+        query: t.Object({
+            format: t.Optional(t.Literal("tree"))
+        })
     })

@@ -1,0 +1,17 @@
+/*.filepond--root,*/
+.filepond--root .filepond--drop-label {
+    cursor: pointer;
+    min-height: 200px;
+}
+
+.filepond--root .filepond--drop-label label {
+    cursor: pointer;
+}
+
+.filepond--root {
+    margin-bottom: 0;
+}
+
+.filepond--file-action-button {
+    cursor: pointer !important;
+}

@@ -1,6 +1,6 @@
 import { AppContent } from "@app/types/app";
 import authConfig from "@config/auth.config";
-import { unauthorized } from "@app/server/response/error";
+import { JsonError, unauthorized } from "@app/server/response/error";
 import { supabase } from "@apps/supabase";
 import serverConfig from "@config/server.config";
 import * as jose from "jose";
@@ -45,6 +45,13 @@ export async function handleSession(ctx: AppContent) {
         }
     } else {
         const { data, error } = await supabase.auth.getUser(accessToken.value);
+
+        if (error && error?.message?.includes("token is expired")) {
+            throw new JsonError({
+                error: "User session expired",
+                status: 419
+            })
+        }
 
         if (!data.user) {
             throw unauthorized(new Error("Failed to get user"));
