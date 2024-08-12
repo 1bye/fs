@@ -1,99 +1,29 @@
 <script lang="ts">
   import { open } from "@tauri-apps/api/dialog";
-  import { Button } from "m3-svelte";
-  import { FSWatcher } from "$lib/watch";
-  import { onMount } from "svelte";
-  import { PUBLIC_WS_SERVER_URL, PUBLIC_SERVER_URL, PUBLIC_DOMAIN } from "$env/static/public";
-  import { invalidate } from "$app/navigation";
-  import { writable, type Writable } from "svelte/store";
-  import { type FileProcessLog, WSEventFileProcess } from "$lib/storage/ws/events/file-process";
-  import { WSReader } from "$lib/utils/ws/reader";
-  import { readBinaryFile, copyFile, renameFile, removeFile, createDir } from "@tauri-apps/api/fs";
+  import { Button, Chip } from "m3-svelte";
+  import { getContext, onMount } from "svelte";
+  import { type Writable } from "svelte/store";
+  import { copyFile, renameFile, removeFile, createDir } from "@tauri-apps/api/fs";
   import { basename, join, dirname } from "@tauri-apps/api/path";
-  import { Command } from "@tauri-apps/api/shell";
-  import { type } from "@tauri-apps/api/os";
   import { Store } from "tauri-plugin-store-api";
-  import type { ServerBaseResponse, Suggestion } from "$lib/types/server";
+  import type { Suggestion } from "$lib/types/server";
   import { isPermissionGranted, requestPermission, sendNotification } from "@tauri-apps/api/notification";
+  import type { FSStore } from "./store"
+
+  const fsStore = getContext<Writable<FSStore>>("fs_store")
 
   let currentWatchPath: string | undefined = undefined;
-  let suggestions: Suggestion[] = [];
   let permissionGranted = false;
+
+  let tasks = {
+    autoTag: true,
+    autoMove: true,
+    autoRename: true,
+  }
 
   const storeDat = ".data.dat";
   const store = new Store(storeDat);
 
-  const processingFiles: Writable<Record<string, FileProcessLog>> = writable({});
-
-  const fsWatcher = new FSWatcher({
-    recursive: true,
-    callbacks: {
-      async onFileAdded(params) {
-        console.log("File added", params)
-        const fileName = await basename(params.path);
-        sendNotification(`Generating suggestions on file ${fileName}`);
-
-        const [binFile, tree] = await Promise.all([
-          readBinaryFile(params.path),
-          getTree(params.cwd)
-        ]);
-        const file = new File([binFile], fileName);
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("tree", tree ?? "s");
-        formData.append("tasks", "autoTag, autoMove, autoRename");
-
-        const res = await fetch(`${PUBLIC_SERVER_URL}/v1/file-d/analyze`, {
-          method: "POST",
-          body: formData,
-          headers: {
-            "Origin": PUBLIC_DOMAIN
-          }
-        });
-
-        if (!res.ok) {
-          console.log(res.status, res.statusText, await res.text())
-          return;
-        }
-
-        const data = await res.json() as ServerBaseResponse<{
-          suggestions: Suggestion[];
-        }>;
-
-        console.log(data)
-        sendNotification(`Chose suggestions of file ${fileName} in app`);
-        suggestions = data.data.suggestions;
-      },
-      onFileMove(params) {
-        console.log("File moved", params)
-      },
-      onFileRemove(params) {
-        console.log("File removed", params);
-      },
-      onFileRename(params) {
-        console.log("File renamed", params)
-      }
-    }
-  })
-
-  async function getTree(path: string) {
-    try {
-      const osType = await type();
-      const args = osType === "Windows_NT" ? [] : ["-a"];
-
-      const command = new Command("tree", args, {
-        cwd: path
-      });
-
-      const data = await command.execute();
-      console.log(data)
-      return data.stdout;
-    } catch (e) {
-      console.log(e)
-      return "";
-    }
-  }
 
   async function folderChose() {
     const file = await open({
@@ -106,7 +36,7 @@
     const arr = Array.isArray(file) ? file : [file];
 
     arr.forEach(_ => {
-      fsWatcher.setPaths(_, true);
+      $fsStore?.fsWatcher?.setPaths(_, true);
       store.set("watch:path", _);
 
       currentWatchPath = _;
@@ -115,41 +45,11 @@
     await store.save();
   }
 
-  async function connect() {
-    const ws = new WebSocket(`${PUBLIC_WS_SERVER_URL}/v1/file-d/processing`);
-
-    const reader = new WSReader(ws, [
-      new WSEventFileProcess(logs => {
-        for (const log of Object.values(logs)) {
-          if (log.process !== "starting") {
-            processingFiles.update(value => {
-              value[log.fileId] = log;
-
-              return value;
-            })
-
-            console.log($processingFiles)
-
-            invalidate("storage:refresh");
-          }
-        }
-      })
-    ]);
-
-    reader.start({
-      open() {
-        console.log("Opened")
-      },
-      close() {
-        console.log("Closed")
-      }
-    })
-  }
 
   onMount(async () => {
     const path = await store.get<string>("watch:path");
 
-    path && fsWatcher.setPaths(path, true);
+    path && $fsStore?.fsWatcher?.setPaths(path, true);
 
     currentWatchPath = path ?? undefined;
 
@@ -162,15 +62,12 @@
     if (permissionGranted && path) {
       sendNotification({ title: "Started watching", body: `Started watching following folder: ${path}` });
     }
-
-    connect();
-
-    return () => {
-      fsWatcher.destroy();
-    }
   })
 
   async function runSuggestions(suggestions: Suggestion[]) {
+    const fsWatcher = $fsStore?.fsWatcher;
+    if (!fsWatcher) return;
+
     fsWatcher.setState("idle");
 
     for (const suggestion of suggestions) {
@@ -206,21 +103,49 @@
     }
 
     fsWatcher.setState("watch");
+    // fsStore.update(value => {
+    //   value.suggestions = [];
+    //   return value;
+    // })
   }
 </script>
 
-<Button type="filled" on:click={folderChose}>
-  Chose directories
-</Button>
+<div class="w-full">
+  <span class="text-base flex font-medium text-secondary pb-2">Tasks</span>
+  <div class="w-full h-fit">
+    <Chip type="general" selected={tasks.autoTag} on:click={() => tasks.autoTag = !tasks.autoTag}>Auto tag</Chip>
+    <Chip type="general" selected={tasks.autoMove} on:click={() => tasks.autoMove = !tasks.autoMove}>Auto move</Chip>
+    <Chip type="general" selected={tasks.autoRename} on:click={() => tasks.autoRename = !tasks.autoRename}>Auto rename</Chip>
+  </div>
 
-{#if currentWatchPath}
-  Watching path: {currentWatchPath}
-{/if}
+ <div class="w-full h-fit mt-4">
+   <Button type={currentWatchPath ? "outlined" : "filled"} on:click={folderChose}>
+     Chose directory
+   </Button>
 
-<div class="w-full flex flex-col gap-2">
-  {#if suggestions.length > 0}
-    <Button type="text" on:click={() => runSuggestions(suggestions)}>
-      Run suggestions
-    </Button>
-  {/if}
+   {#if currentWatchPath}
+     Watching path: {currentWatchPath}
+   {/if}
+ </div>
+
+  <div class="w-full flex flex-col gap-2">
+    {#if $fsStore.suggestions.length > 0}
+      {#each $fsStore.suggestions as suggestion, i}
+        <div class="w-full h-fit p-2">
+          {i}.
+          <span class="text-primary text-xs font-medium">{suggestion.type}</span>
+          |
+          <span class="text-primary text-xs">{suggestion.task}</span>
+          |
+          <span class="text-primary text-xs">
+            {@html Object.entries(suggestion.args).map(_ => `<b>${_[0]}:</b> ${_[1]}`)}
+          </span>
+        </div>
+      {/each}
+      <Button type="filled" on:click={() => runSuggestions($fsStore.suggestions)}>
+        Run suggestions
+      </Button>
+    {/if}
+  </div>
 </div>
+

@@ -19,10 +19,10 @@ fn main() {
     let hide = CustomMenuItem::new("hide".to_string(), "Hide");
     let show = CustomMenuItem::new("show".to_string(), "Show");
     let tray_menu = SystemTrayMenu::new()
-      .add_item(quit)
-      .add_native_item(SystemTrayMenuItem::Separator)
       .add_item(hide)
-      .add_item(show);
+      .add_item(show)
+      .add_native_item(SystemTrayMenuItem::Separator)
+      .add_item(quit);
     let tray = SystemTray::new().with_menu(tray_menu);
 
     tauri::Builder::default()
