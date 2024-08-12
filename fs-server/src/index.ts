@@ -11,7 +11,8 @@ const app = new Elysia()
     .use(
         cors({
             methods: "*",
-            origin: serverConfig.allowedOrigins,
+            // origin: serverConfig.allowedOrigins,
+            origin: true
         })
     )
     .use(v1)
