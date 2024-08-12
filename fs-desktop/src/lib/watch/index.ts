@@ -17,6 +17,19 @@ type LinuxEventType = {
     }
 };
 
+type WindowsEventType = {
+    modify?: {
+        kind: string | "rename";
+        mode: "both" | "from" | "to" | "any"
+    },
+    create?: {
+        kind: "any"
+    },
+    remove?: {
+        kind: "any"
+    }
+};
+
 export interface FSWatcherCallbackParams {
     cwd: string;
 }
@@ -113,11 +126,75 @@ export class FSWatcher implements IFSWatcher {
 
     processEvent(event: RawEvent): void {
         this.eventStack.push(event);
-
+        console.log(event)
         if (this.osType === "Linux") {
             this.linuxProcessEvent(event);
-        } else {
+        } else if (this.osType === "Windows_NT") {
+            this.windowsProcessEvent(event)
+        } {
             this.defaultProcessEvent(event);
+        }
+    }
+
+    windowsProcessEvent(event: RawEvent): void {
+        const type = event.type as WindowsEventType | undefined;
+        if (!type) return;
+
+        if (type?.remove) {
+            const file1 = event.paths[0];
+
+            this.resolveStack(() => {
+                const type = (this.eventStack?.at(-1)?.type as WindowsEventType | undefined);
+
+                if (!type) {
+                    return false;
+                }
+
+                return type.create?.kind === "any" || type?.modify?.kind === "any";
+            }, 10)
+                .then(_ => {
+                    const paths = (this.eventStack?.at(-1)?.paths as string[] | undefined);
+
+                    this.callbacks?.onFileMove?.({
+                        cwd: this.path,
+                        paths: [file1, paths?.[0] ?? ""]
+                    })
+                })
+                .catch(() => {
+                    this.callbacks?.onFileRemove?.({
+                        path: file1,
+                        cwd: this.path
+                    })
+                });
+
+        } else if (type?.modify) {
+            if (type.modify.kind === "rename" && type.modify.mode === "from") {
+                const file1 = event.paths[0];
+
+                this.resolveStack(() => {
+                    const type = (this.eventStack?.at(-1)?.type as WindowsEventType | undefined);
+
+                    if (!type) {
+                        return false;
+                    }
+
+                    return type.modify?.kind === "rename" && type?.modify.mode === "to"
+                }, 10)
+                    .then(_ => {
+                        const paths = (this.eventStack?.at(-1)?.paths as string[] | undefined);
+
+                        this.callbacks?.onFileRename?.({
+                            cwd: this.path,
+                            paths: [file1, paths?.[0] ?? ""]
+                        })
+                    })
+                    .catch();
+            }
+        } else if (type.create) {
+            this.callbacks?.onFileAdded?.({
+                cwd: this.path,
+                path: event.paths[0]
+            })
         }
     }
 

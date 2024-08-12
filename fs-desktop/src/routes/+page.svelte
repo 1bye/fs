@@ -3,7 +3,7 @@
   import { Button } from "m3-svelte";
   import { FSWatcher } from "$lib/watch";
   import { onMount } from "svelte";
-  import { PUBLIC_WS_SERVER_URL, PUBLIC_SERVER_URL } from "$env/static/public";
+  import { PUBLIC_WS_SERVER_URL, PUBLIC_SERVER_URL, PUBLIC_DOMAIN } from "$env/static/public";
   import { invalidate } from "$app/navigation";
   import { writable, type Writable } from "svelte/store";
   import { type FileProcessLog, WSEventFileProcess } from "$lib/storage/ws/events/file-process";
@@ -46,7 +46,10 @@
 
         const res = await fetch(`${PUBLIC_SERVER_URL}/v1/file-d/analyze`, {
           method: "POST",
-          body: formData
+          body: formData,
+          headers: {
+            "Origin": PUBLIC_DOMAIN
+          }
         });
 
         if (!res.ok) {
@@ -75,16 +78,21 @@
   })
 
   async function getTree(path: string) {
-    const osType = await type();
-    const args = osType === "Windows_NT" ? ["/F", "/A"] : ["-a"];
+    try {
+      const osType = await type();
+      const args = osType === "Windows_NT" ? [] : ["-a"];
 
-    const command = new Command("tree-dir", args, {
-      cwd: path
-    });
+      const command = new Command("tree", args, {
+        cwd: path
+      });
 
-    const data = await command.execute();
-
-    return data.stdout;
+      const data = await command.execute();
+      console.log(data)
+      return data.stdout;
+    } catch (e) {
+      console.log(e)
+      return "";
+    }
   }
 
   async function folderChose() {
