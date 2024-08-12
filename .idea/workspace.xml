@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/workflow.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/tauri.conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/tauri.conf.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
