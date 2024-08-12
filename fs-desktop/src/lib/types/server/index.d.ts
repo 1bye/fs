@@ -8,3 +8,9 @@ export type BaseWebSocketEvent<Event extends string = string, Data extends strin
     event: Event;
     data: Data;
 };
+
+export type Suggestion<Args extends SuggestionArgs = SuggestionArgs> = {
+    type: string;
+    task: string;
+    args: Args;
+}
