@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/fs-desktop/release/windows/Nouro FS_0.0.0_x64-setup.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/release/windows/Nouro FS_0.0.0_x64_en-US.msi" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src-tauri/tauri.conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src-tauri/tauri.conf.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-desktop/src/lib/watch/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src/lib/watch/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fs-desktop/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-desktop/src/routes/+page.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +49,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "windows",
-    "last_opened_file_path": "C:/Github/fs/fs-desktop",
+    "last_opened_file_path": "C:/Github/fs/fs-desktop/release/windows",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -66,11 +64,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Github\fs\fs-desktop\release\windows" />
       <recent name="C:\Github\fs\fs-desktop" />
       <recent name="C:\Github\fs\fs-app" />
       <recent name="$PROJECT_DIR$/fs-desktop" />
       <recent name="$PROJECT_DIR$/fs-d/src/lib" />
-      <recent name="$PROJECT_DIR$/fs-d" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/fs-d/src/lib/utils" />

@@ -41,7 +41,7 @@
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("tree", tree);
+        formData.append("tree", tree ?? "s");
         formData.append("tasks", "autoTag, autoMove, autoRename");
 
         const res = await fetch(`${PUBLIC_SERVER_URL}/v1/file-d/analyze`, {
