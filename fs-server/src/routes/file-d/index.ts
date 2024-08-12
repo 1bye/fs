@@ -47,10 +47,10 @@ const ws = new Elysia({ prefix: "/processing" })
                 ws.close();
             }
 
-            deviceId = (deviceId ?? "localhost").replace(".", "");
+            deviceId = (deviceId ?? "localhost").replace(/[.#\$\[\]]/g, "");
 
             const path = `file_processing/${deviceId}`;
-            console.log(deviceId, path)
+            console.log({deviceId, path})
             ws.data.store.connectedApps[deviceId] = onValue(ref(db, path), (snapshot) => {
                 const json = snapshot.toJSON();
                 console.log(json)
@@ -62,8 +62,9 @@ const ws = new Elysia({ prefix: "/processing" })
         },
 
         close: (ws) => {
-            const deviceId = (parseIp(ws.data.ip) ?? "localhost").replace(".", "");
+            const deviceId = (parseIp(ws.data.ip) ?? "localhost").replace(/[.#\$\[\]]/g, "");
             const store = ws.data.store.connectedApps;
+            console.log({deviceId})
 
             if (store) {
                 store[deviceId]?.();
@@ -86,8 +87,8 @@ export default new Elysia({ prefix: "/file-d" })
             throw jsonError("Invalid device id!");
         }
 
-        deviceId = (deviceId ?? "localhost").replace(".", "");
-
+        deviceId = (deviceId ?? "localhost").replace(/[.#\$\[\]]/g, "");
+        console.log({ deviceId })
         const _tasks = body.tasks.split(", ") as AvailableTasks[];
         const tree: string | FSTreeRoot = body.tree;
         const fileId = Math.random().toString();
