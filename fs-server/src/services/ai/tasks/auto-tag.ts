@@ -78,10 +78,12 @@ Perform the following tasks:
             ["system", "You are a helpful assistant"],
             ["human", await prompt.format({
                 file_details: `File name: ${file.name}, File Path: ${file.getPath()}`,
-                folder_structure: generateTree(fsTree, {
-                    showFiles: false,
-                    showFolders: true
-                }),
+                folder_structure: typeof fsTree === "string"
+                    ? fsTree
+                    : generateTree(fsTree, {
+                        showFiles: false,
+                        showFolders: true
+                    }),
                 tags: tags.join(", "),
                 file_content: await file.getContent(),
                 max_to_assign_tags: maxToAssignTags ?? 3,

@@ -1,0 +1,1 @@
+export { default as BaseLoading } from "./base-loading.svelte";

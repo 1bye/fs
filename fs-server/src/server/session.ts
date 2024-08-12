@@ -112,3 +112,21 @@ export async function handleSecretSession(ctx: AppContent) {
         user: data.user
     }
 }
+
+export async function handleCombinedSession(ctx: AppContent) {
+    try {
+        // Attempt to handle using handleSecretSession first
+        return await handleSecretSession(ctx);
+    } catch (secretSessionError) {
+        try {
+            // If handleSecretSession fails, attempt to handle using handleSession
+            return await handleSession(ctx);
+        } catch (sessionError) {
+            if (sessionError instanceof JsonError) {
+                throw sessionError;
+            }
+            // If both fail, throw the error from handleSecretSession
+            throw unauthorized(sessionError as Error);
+        }
+    }
+}

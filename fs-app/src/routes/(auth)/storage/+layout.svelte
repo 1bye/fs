@@ -60,7 +60,7 @@
         fileCount = 0;
     }
 </script>
-{fileCount}
+
 <Dialog extraOptions={{
     class: "[&_.content]:!mb-0"
 }} headline="Upload file" icon={OutlineCloudUpload} bind:open={uploadDialogShown}>
@@ -94,7 +94,7 @@
     </NavList>
 
     <div class="w-full h-full pt-6 pr-6">
-        <div class="w-full h-full bg-surface-container rounded-t-4xl">
+        <div class="w-full h-full">
             <slot />
         </div>
     </div>

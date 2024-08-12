@@ -5,48 +5,99 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4946cb48-0b5f-4969-b7ab-13c8c0f72843" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavDrawer.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavDrawerButton.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavDrawerLink.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavList.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavListButton.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/NavListLink.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/Tabs.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/TabsLink.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/VariableTabs.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/nav/VariableTabsLink.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/sidebar/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/sidebar/sidebar.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/file/uploader/file-uploader.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/file/uploader/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/file/uploader/override.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/file/uploader/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-base-view.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-file-dep.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-file.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-folder.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/server/fetch.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/server/session.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/types/server/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/types/storage/ai.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/types/storage/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/storage/tag.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/storage/tree.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/text.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.server.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+page.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/search/+page.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fs-app/static/images/file-fallback.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/base/base-loading.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/base/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/components/base/loading-anim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/storage/ws/events/file-process.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/json.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/ws/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-app/src/lib/utils/ws/reader.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/base/base-loading.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/base/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/base/loading-anim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavDrawer.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavDrawerButton.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavDrawerLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavList.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavListButton.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/NavListLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/Tabs.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/TabsLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/VariableTabs.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/nav/VariableTabsLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/sidebar/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/sidebar/sidebar.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/file/uploader/file-uploader.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/file/uploader/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/file/uploader/override.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/file/uploader/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/storage-base-view.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/storage-file-dep.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/storage-file.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/components/storage/storage-folder.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/storage/ws/events/file-process.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/types/server/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/utils/json.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/utils/text.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/utils/ws/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/utils/ws/reader.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/lib/watch/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-d/src/routes/+layout.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/components.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/base/base-loading.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/base/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/base/loading-anim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavDrawer.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavDrawerButton.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavDrawerLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavList.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavListButton.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/NavListLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/Tabs.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/TabsLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/VariableTabs.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/nav/VariableTabsLink.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/sidebar/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/sidebar/sidebar.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/file/uploader/file-uploader.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/file/uploader/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/file/uploader/override.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/file/uploader/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/storage-base-view.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/storage-file-dep.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/storage-file.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/components/storage/storage-folder.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/config/auth.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/config/types/auth.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/server/fetch.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/server/session.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/storage/ws/events/file-process.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/types/server/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/types/storage/ai.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/types/storage/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/json.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/storage/tag.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/storage/tree.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/text.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/ws/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/lib/utils/ws/reader.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/routes/+layout.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fs-desktop/src/routes/+page.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fs-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/+layout.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/+layout.server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/user/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/user/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/+layout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/+layout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/svelte.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/svelte.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fs-app/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-base-view.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-base-view.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-file.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/lib/components/storage/storage-file.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/lib/types/server/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/lib/types/server/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+layout.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/fs-app/src/routes/(auth)/storage/+page.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +117,7 @@
         <option value="CSS File" />
         <option value="file-item" />
         <option value="storage-base-view" />
+        <option value="base-loading" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -81,37 +133,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/mrbye/Documents/GitHub/fs/fs-app/src/lib/components/storage&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;/home/mrbye/.nvm/versions/node/v18.20.4/bin/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/mrbye/Documents/GitHub/fs/fs-app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "production",
+    "last_opened_file_path": "/home/mrbye/Documents/GitHub/fs/fs-d/src/lib",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/mrbye/.nvm/versions/node/v18.20.4/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "ts.external.directory.path": "/home/mrbye/Documents/GitHub/fs/fs-desktop/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/fs-app/src/lib/components/storage" />
-      <recent name="$PROJECT_DIR$/fs-app/static/images" />
-      <recent name="$PROJECT_DIR$/fs-app/src/lib/components/file/uploader" />
-      <recent name="$PROJECT_DIR$/fs-app/src/lib/components" />
-      <recent name="$PROJECT_DIR$/fs-server/src/services/file/analyzer/types" />
+      <recent name="$PROJECT_DIR$/fs-d/src/lib" />
+      <recent name="$PROJECT_DIR$/fs-d" />
+      <recent name="$PROJECT_DIR$/fs-server/src/routes" />
+      <recent name="$PROJECT_DIR$/fs-d/src/routes" />
+      <recent name="$PROJECT_DIR$/fs-desktop" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fs-d/src/lib/utils" />
+      <recent name="$PROJECT_DIR$/fs-desktop" />
       <recent name="$PROJECT_DIR$/fs-app/src/lib/components/storage/file" />
       <recent name="$PROJECT_DIR$/fs-app/src/lib/server" />
       <recent name="$PROJECT_DIR$/fs-app/src/lib" />
-      <recent name="$PROJECT_DIR$/fs-server/tmp/__prepared" />
-      <recent name="$PROJECT_DIR$/fs-server/src/services/storage/fs" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -146,7 +198,12 @@
       <workItem from="1723195863966" duration="5332000" />
       <workItem from="1723221926045" duration="16845000" />
       <workItem from="1723296938055" duration="13099000" />
-      <workItem from="1723406275637" duration="5432000" />
+      <workItem from="1723406275637" duration="5885000" />
+      <workItem from="1723454742443" duration="8312000" />
+      <workItem from="1723470709914" duration="1220000" />
+      <workItem from="1723471937409" duration="115000" />
+      <workItem from="1723472059041" duration="3666000" />
+      <workItem from="1723475735082" duration="12685000" />
     </task>
     <servers />
   </component>

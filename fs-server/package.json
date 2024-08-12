@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.45.1",
     "drizzle-orm": "^0.32.2",
     "elysia": "latest",
+    "elysia-ip": "^1.0.7",
     "ffmpeg-static": "^5.2.0",
     "firebase": "^10.12.5",
     "fluent-ffmpeg": "^2.1.3",

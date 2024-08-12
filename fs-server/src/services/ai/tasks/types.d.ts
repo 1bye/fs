@@ -56,5 +56,5 @@ export interface AITaskConfig {
 
 export interface AITaskFileConfig {
     file: IFileInput;
-    fsTree: FSTreeRoot;
+    fsTree: FSTreeRoot | string;
 }

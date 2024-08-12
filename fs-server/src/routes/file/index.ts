@@ -7,12 +7,12 @@ import { AITaskExecutor } from "@services/ai/tasks/executor";
 import { AIAutoMoveTask } from "@services/ai/tasks/auto-move";
 import { AISuggestionExecutor } from "@services/ai/suggestion/executor";
 import userConfig from "@config/user.config";
-import { handleSecretSession } from "@app/server/session";
+import { handleCombinedSession, handleSecretSession } from "@app/server/session";
 import { IAISuggestion } from "@services/ai/suggestion/types";
 import path from "node:path";
 import { db, firestore } from "@apps/firebase";
-import { set, ref, onValue, remove, update } from "firebase/database";
-import { addDoc, updateDoc, collection, deleteDoc, query, where, getDocs } from "firebase/firestore";
+import { ref, onValue } from "firebase/database";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { randomBytes } from "node:crypto";
 import { JsonError, jsonError } from "@app/server/response/error";
 import { MutateMap } from "@services/etc/mutate";
@@ -34,7 +34,7 @@ import { FileAnalyzerDocumentType } from "@services/file/analyzer/types/docs";
 import { FileAnalyzerSpreadsheetType } from "@services/file/analyzer/types/spreadsheet";
 
 const ws = new Elysia({ prefix: "/processing" })
-    .derive(handleSecretSession)
+    .derive(handleCombinedSession)
     .state("connectedUsers", {} as Record<string, () => void>)
     .ws("/", {
         open: (ws) => {
@@ -42,7 +42,10 @@ const ws = new Elysia({ prefix: "/processing" })
             ws.data.store.connectedUsers[userId] = onValue(ref(db, `file_processing/${userId}`), (snapshot) => {
                 const json = snapshot.toJSON();
                 console.log(json)
-                json && ws.send(json);
+                json && ws.send({
+                    event: "file:process",
+                    data: json
+                });
             });
         },
 

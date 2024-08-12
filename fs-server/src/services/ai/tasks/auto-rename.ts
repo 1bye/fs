@@ -33,15 +33,7 @@ export class AIAutoRenameTask implements IAITask {
             name: "renameFile"
         });
 
-        const mut = this.config.mutate as ToMutateMap<{
-            file: AITaskFileConfig["file"];
-            fsTree: FSTreeRoot;
-        }>
-        //
-        console.log("FILERENAME", mut.toObject(), generateTree(mut.get("fsTree"), {
-            showFiles: false,
-            showFolders: true
-        }))
+        const mut = this.config.mutate;
 
         const { file, fsTree } = mut.toObject();
 
@@ -71,10 +63,12 @@ Perform the following tasks:
             ["system", "You are a helpful assistant"],
             ["human", await prompt.format({
                 file_details: `File name: ${file.name}, File Path: ${path.dirname(file.name as string ?? "")}`,
-                folder_structure: generateTree(fsTree, {
-                    showFiles: false,
-                    showFolders: true
-                }),
+                folder_structure: typeof fsTree === "string"
+                    ? fsTree
+                    : generateTree(fsTree, {
+                        showFiles: false,
+                        showFolders: true
+                    }),
                 file_content: await file.getContent(),
             })]
         ]) as {
